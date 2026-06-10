@@ -4411,19 +4411,6 @@ document.querySelectorAll('.nav-item').forEach(item => {
 document.getElementById('hamburger').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('open');
 });
-
-// ======================================================
-// INIT
-// ======================================================
-loadStateLocal();   // load local cache immediately for instant render
-initTheme();
-renderDashboard();
-refreshNavBadge();
-checkImportFromURL();
-initFirebase();     // connect Firebase if configured
-initGasAutoSync();  // connect GAS polling if URL saved
-initCloudflare();   // connect Cloudflare Worker if URL configured
-
 // ======================================================
 // GAS AUTO-SYNC — polling 30 detik tanpa config tambahan
 // ======================================================
@@ -4432,6 +4419,19 @@ const GAS_POLL_SECS  = 30;
 let gasPollingTimer  = null;
 let gasLastSyncHash  = '';
 let gasConnected     = false;
+// ======================================================
+// INIT
+// ======================================================
+window.addEventListener('load', () => {
+loadStateLocal();   // load local cache immediately for instant render
+initTheme();
+renderDashboard();
+refreshNavBadge();
+checkImportFromURL();
+initFirebase();     // connect Firebase if configured
+initGasAutoSync();  // connect GAS polling if URL saved
+initCloudflare();   // connect Cloudflare Worker if URL configured
+});
 
 function initGasUrlPersist() {
   const el = document.getElementById('gasUrl');
