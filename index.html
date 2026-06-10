@@ -712,7 +712,7 @@ th.sortable.asc span, th.sortable.desc span { opacity: 1; color: var(--indigo-40
 .hamburger { display: none; }
 @media (max-width: 600px) { .hamburger { display: flex; } }
 </style>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script></head>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script></head>
 <body>
 <!-- Background -->
 <div class="app-bg"><div class="grid-pattern"></div></div>
@@ -721,7 +721,7 @@ th.sortable.asc span, th.sortable.desc span { opacity: 1; color: var(--indigo-40
 <div class="spinner-overlay" id="spinner"><div class="spinner"></div></div>
 
 <!-- Toast Container -->
-<div class="toast-container" id="toastContainer"><div class="toast success"><span class="toast-icon">✅</span><span class="toast-msg">✅ URL disimpan! Sekarang download index.html baru dan upload ke GitHub.</span></div></div>
+<div class="toast-container" id="toastContainer"><div class="toast success"><span class="toast-icon">✅</span><span class="toast-msg">✅ URL disimpan! Sekarang download index.html baru dan upload ke GitHub.</span></div><div class="toast success"><span class="toast-icon">✅</span><span class="toast-msg">✅ URL disimpan! Sekarang download index.html baru dan upload ke GitHub.</span></div></div>
 
 <!-- Modal -->
 <div class="modal-overlay" id="modalOverlay">
@@ -886,11 +886,11 @@ th.sortable.asc span, th.sortable.desc span { opacity: 1; color: var(--indigo-40
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px" class="analytics-grid" id="dashCharts1">
           <div class="card">
             <div class="card-header"><div class="card-title">Distribusi Predikat</div></div>
-            <div class="card-body" style="height:240px"><canvas id="chartDistribusi" style="box-sizing: border-box; display: block; height: 196px; width: 745px;" width="745" height="196"></canvas></div>
+            <div class="card-body" style="height:240px"><canvas id="chartDistribusi" style="box-sizing: border-box; display: block; height: 0px; width: 0px;" width="0" height="0"></canvas></div>
           </div>
           <div class="card">
             <div class="card-header"><div class="card-title">Rata-rata Komponen Nilai</div></div>
-            <div class="card-body" style="height:240px"><canvas id="chartKomponen" style="box-sizing: border-box; display: block; height: 196px; width: 745px;" width="745" height="196"></canvas></div>
+            <div class="card-body" style="height:240px"><canvas id="chartKomponen" style="box-sizing: border-box; display: block; height: 0px; width: 0px;" width="0" height="0"></canvas></div>
           </div>
         </div>
 
@@ -943,7 +943,7 @@ th.sortable.asc span, th.sortable.desc span { opacity: 1; color: var(--indigo-40
           <div class="toolbar-left">
             <div class="search-wrapper" style="max-width:280px;flex:1">
               <span class="search-icon">🔍</span>
-              <input type="text" class="form-control" id="searchMhs" placeholder="Cari nama atau NIM..." oninput="renderMahasiswaTable()">
+              <input type="text" class="form-control" id="searchMhs" placeholder="Cari nama atau NIM..." oninput="renderMahasiswaTable()" fdprocessedid="13vzq">
             </div>
             <div class="chips" id="filterPredikat">
               <div class="chip active" data-val="">Semua</div>
@@ -955,7 +955,7 @@ th.sortable.asc span, th.sortable.desc span { opacity: 1; color: var(--indigo-40
             </div>
           </div>
           <div class="toolbar-right">
-            <button class="btn btn-primary" onclick="openAddMahasiswaModal()">+ Tambah Mahasiswa</button>
+            <button class="btn btn-primary" onclick="openAddMahasiswaModal()" fdprocessedid="3hy1s3">+ Tambah Mahasiswa</button>
           </div>
         </div>
         <div class="card">
@@ -973,7 +973,867 @@ th.sortable.asc span, th.sortable.desc span { opacity: 1; color: var(--indigo-40
                   <th>Aksi</th>
                 </tr>
               </thead>
-              <tbody id="mahasiswaTableBody"></tbody>
+              <tbody id="mahasiswaTableBody">
+      <tr>
+        <td><span class="rank-number rank-1">#1</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230060</code></td>
+        <td><strong>AZZAH LUTFIYATUL KHONSA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:#22c55e">100</strong></td>
+        <td><span class="badge badge-A">A</span></td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:4%;background:#ef4444"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">4%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:1/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230060')" fdprocessedid="85lyb">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230060';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="xi2ebl">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230060')" style="margin-left:4px" fdprocessedid="de5w9t">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number rank-2">#2</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230039</code></td>
+        <td><strong>DJAKO WAHYA SAMPURNA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:#22c55e">95.5</strong></td>
+        <td><span class="badge badge-A">A</span></td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:4%;background:#ef4444"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">4%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:1/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230039')" fdprocessedid="b4m2u">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230039';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="hp4n9l">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230039')" style="margin-left:4px" fdprocessedid="tqe4ak">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number rank-3">#3</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230009</code></td>
+        <td><strong>SATRIO DWI DAMARA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230009')" fdprocessedid="xu01o">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230009';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="uihvgt">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230009')" style="margin-left:4px" fdprocessedid="00z9y">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#4</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230011</code></td>
+        <td><strong>ANANDA MITA MAHARANI</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230011')" fdprocessedid="5oaiu">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230011';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="ny6m9">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230011')" style="margin-left:4px" fdprocessedid="ewt4lt">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#5</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230017</code></td>
+        <td><strong>MUHAMMAD ALVITO NAJWAAN</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230017')" fdprocessedid="fer1s">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230017';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="z5pm0d">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230017')" style="margin-left:4px" fdprocessedid="dg7hy">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#6</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230030</code></td>
+        <td><strong>OLSYEN AKBAR PRAMUDYA ANANDA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230030')" fdprocessedid="fh3nc">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230030';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="zhucdg">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230030')" style="margin-left:4px" fdprocessedid="skl0tb">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#7</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230037</code></td>
+        <td><strong>AULIA HABIBAH</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230037')" fdprocessedid="i4h6b">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230037';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="ikh1w4">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230037')" style="margin-left:4px" fdprocessedid="4l71rd">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#8</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230043</code></td>
+        <td><strong>SAGUH SAVERO ZAKI</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230043')" fdprocessedid="g8n4xp">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230043';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="7x5z2j">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230043')" style="margin-left:4px" fdprocessedid="flz9jm">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#9</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230076</code></td>
+        <td><strong>GRACIA WAHYU ANJANI</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230076')" fdprocessedid="gbv70o">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230076';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="se0svr">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230076')" style="margin-left:4px" fdprocessedid="2u8q4s">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#10</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230103</code></td>
+        <td><strong>FATH SANIA SALMAA PUTERI</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230103')" fdprocessedid="lt9usr">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230103';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="eyz855">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230103')" style="margin-left:4px" fdprocessedid="92498v">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#11</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230117</code></td>
+        <td><strong>ATHAYA TSANY SURYA PUTRI</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230117')" fdprocessedid="cb36aq">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230117';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="2ddezd">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230117')" style="margin-left:4px" fdprocessedid="oakqse">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#12</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230122</code></td>
+        <td><strong>AZZAHRA HASNA NIDA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230122')" fdprocessedid="oyud1tf">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230122';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="icemi">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230122')" style="margin-left:4px" fdprocessedid="dx9e3t">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#13</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230126</code></td>
+        <td><strong>NAU FARA KURNIA TILLAH</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230126')" fdprocessedid="hen4nh">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230126';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="3ol30c">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230126')" style="margin-left:4px" fdprocessedid="o63ot">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#14</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230127</code></td>
+        <td><strong>NAJWA MEIRISCHA GITA CAHYANI</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230127')" fdprocessedid="wcb1g">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230127';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="fc999n">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230127')" style="margin-left:4px" fdprocessedid="5o8op9">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#15</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230129</code></td>
+        <td><strong>MUHAMMAD RIZQI PRATAMA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230129')" fdprocessedid="69fv3a">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230129';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="tuwc66">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230129')" style="margin-left:4px" fdprocessedid="ygjqt9">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#16</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230135</code></td>
+        <td><strong>NAWANG WULAN</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230135')" fdprocessedid="xs7kn">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230135';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="ti3fpv">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230135')" style="margin-left:4px" fdprocessedid="zxslui">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#17</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230137</code></td>
+        <td><strong>VIRA YUNITA MULYONO</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230137')" fdprocessedid="9oz4s6">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230137';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="i97gn">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230137')" style="margin-left:4px" fdprocessedid="si6ne">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#18</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230185</code></td>
+        <td><strong>TESALONIKA PAULINA PUTRI SIGIRO</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230185')" fdprocessedid="hpkwu">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230185';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="89fgoc">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230185')" style="margin-left:4px" fdprocessedid="lpmwcm">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#19</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230200</code></td>
+        <td><strong>ZIAN NUR IMAMAH FARID</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230200')" fdprocessedid="jt3arq">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230200';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="0iht5">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230200')" style="margin-left:4px" fdprocessedid="qwe0ni">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#20</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230209</code></td>
+        <td><strong>ARKANA AZHAR NUGROHO</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230209')" fdprocessedid="9b7q1h">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230209';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="uzlu5">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230209')" style="margin-left:4px" fdprocessedid="gnpjg">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#21</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230225</code></td>
+        <td><strong>SALSABILA PUTRI PURNAMA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230225')" fdprocessedid="7qgkzca">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230225';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="95gurh">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230225')" style="margin-left:4px" fdprocessedid="cf7y2">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#22</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230243</code></td>
+        <td><strong>ANDRIANI ENDAH WAHYUNINGTYAS</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230243')" fdprocessedid="fdt7q">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230243';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="wo6cgbr">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230243')" style="margin-left:4px" fdprocessedid="0htihc">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#23</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230260</code></td>
+        <td><strong>JUAN DENIRO TAMBUN</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230260')" fdprocessedid="s1lqi">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230260';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="csbedq">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230260')" style="margin-left:4px" fdprocessedid="3bfc5k">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#24</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230263</code></td>
+        <td><strong>ZAKI RAMADHAN EFENDY</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230263')" fdprocessedid="v1owm">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230263';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="inhjoq">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230263')" style="margin-left:4px" fdprocessedid="pkkf8l">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#25</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230274</code></td>
+        <td><strong>SARAH PATRICIA SIMATUPANG</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230274')" fdprocessedid="vh9dn">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230274';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="q7otv8">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230274')" style="margin-left:4px" fdprocessedid="lw3i0f">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#26</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230286</code></td>
+        <td><strong>MUHAMMAD NANDA RAKHA PRADANA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230286')" fdprocessedid="5iub1n">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230286';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="6qxi9v">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230286')" style="margin-left:4px" fdprocessedid="4js3ig">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#27</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230291</code></td>
+        <td><strong>SITA AGNISTULLAH</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230291')" fdprocessedid="2nf5rr">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230291';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="jg4w1">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230291')" style="margin-left:4px" fdprocessedid="t4mn2i">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#28</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230301</code></td>
+        <td><strong>M. DAFFA FAHADA LUBIS</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230301')" fdprocessedid="ev3yhg">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230301';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="grlqvw">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230301')" style="margin-left:4px" fdprocessedid="oe42i9">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#29</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230304</code></td>
+        <td><strong>MUHAMMAD AKBAR MAULANA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230304')" fdprocessedid="ljump7">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230304';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="euei">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230304')" style="margin-left:4px" fdprocessedid="39nxud">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#30</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230308</code></td>
+        <td><strong>SITI HAJAR SUWARDY</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230308')" fdprocessedid="mzwwnb">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230308';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="zp8pz">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230308')" style="margin-left:4px" fdprocessedid="qqv83i">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#31</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230315</code></td>
+        <td><strong>NI WAYAN PUTRI RATNA DEWATI</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230315')" fdprocessedid="ij4z2">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230315';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="p8sid8">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230315')" style="margin-left:4px" fdprocessedid="d35jud">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#32</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230325</code></td>
+        <td><strong>FAZILA GHANIA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230325')" fdprocessedid="t73h0r">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230325';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="l7r035">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230325')" style="margin-left:4px" fdprocessedid="hqy3439">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#33</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230332</code></td>
+        <td><strong>EXAL RAY SITOMPUL</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230332')" fdprocessedid="gfkcw">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230332';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="8c4cbb">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230332')" style="margin-left:4px" fdprocessedid="a9ngr8">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#34</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230339</code></td>
+        <td><strong>DEBORA LAURENSIA SIHOTANG</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230339')" fdprocessedid="t5zszi">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230339';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="xkxu7o">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230339')" style="margin-left:4px" fdprocessedid="e7zb2x">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#35</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230344</code></td>
+        <td><strong>GUSTI FALIH DEANDA TARIGAN</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230344')" fdprocessedid="w78wk">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230344';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="amj4xa">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230344')" style="margin-left:4px" fdprocessedid="a7mxob">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#36</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230346</code></td>
+        <td><strong>AXL JOSSUA HALASSON HUTABARAT</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230346')" fdprocessedid="mn2l0p">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230346';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="l3d6g">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230346')" style="margin-left:4px" fdprocessedid="s1bscr">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#37</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230357</code></td>
+        <td><strong>YUNI FAKHIRA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230357')" fdprocessedid="p63wpa">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230357';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="jvyo5">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230357')" style="margin-left:4px" fdprocessedid="x5421">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#38</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230372</code></td>
+        <td><strong>OLYVIA HUTAHAEAN</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230372')" fdprocessedid="6rry3n">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230372';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="gh6s0s">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230372')" style="margin-left:4px" fdprocessedid="41wcrb">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#39</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230376</code></td>
+        <td><strong>RICK EDWARD PURBA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230376')" fdprocessedid="ogd9xa">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230376';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="aag7fb">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230376')" style="margin-left:4px" fdprocessedid="ivtxz">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#40</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230392</code></td>
+        <td><strong>MHD AIDIL HASHFI NASUTION</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230392')" fdprocessedid="sezw9m">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230392';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="8tfhte">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230392')" style="margin-left:4px" fdprocessedid="rhxyc">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#41</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230396</code></td>
+        <td><strong>JAQLINE MARLENA BENU</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-5</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230396')" fdprocessedid="n52r8n">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230396';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="2c8zhl">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230396')" style="margin-left:4px" fdprocessedid="xxuet">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#42</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230402</code></td>
+        <td><strong>MARTA DEBORA SAGALA</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230402')" fdprocessedid="u0dd6v">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230402';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="gl3gk">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230402')" style="margin-left:4px" fdprocessedid="im2mhp">🗑️</button>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="rank-number ">#43</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">4121230419</code></td>
+        <td><strong>CLAUDYA BHAYANGKARA BANOET</strong></td>
+        <td><span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">Treasury-4</span></td>
+        <td><strong style="font-size:15px;color:var(--text-muted)">—</strong></td>
+        <td>—</td>
+        <td><div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:0%;background:var(--text-muted)"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">0%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:0/14 ·UTS ·UAS</div>
+    </div></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('4121230419')" fdprocessedid="f9szyj">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='4121230419';renderRekapIndividu()" style="margin-left:4px" fdprocessedid="8ggwtl">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('4121230419')" style="margin-left:4px" fdprocessedid="2gdbqd">🗑️</button>
+        </td>
+      </tr></tbody>
             </table>
           </div>
         </div>
@@ -3906,7 +4766,7 @@ function generateIndexWithWorkerUrl(url) {
   // Get current page HTML and replace WORKER_URL
   const html = document.documentElement.outerHTML;
   const updated = html.replace(
-    "const WORKER_URL     = '';",
+    "const WORKER_URL     = 'https://edurank-ai.bahrizalsyahalba.workers.dev/';",
     `const WORKER_URL     = '${url}';`
   );
   const blob = new Blob([updated], { type: 'text/html' });
@@ -3934,4 +4794,5 @@ function getWorkerUrl() {
 </script>
 
 
+<span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span>
 <span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span></body></html>
