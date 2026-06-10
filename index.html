@@ -4638,16 +4638,24 @@ function stopCfPolling() {
 
 // ── Connect ke Worker ─────────────────────────────────────
 async function initCloudflare() {
+
+  const saved = localStorage.getItem(CF_URL_KEY);
+  if (saved) window._CF_WORKER_URL = saved;
+
   const WORKER_URL = getWorkerUrl();
-  if (!WORKER_URL) return; // belum dikonfigurasi
+
+  if (!WORKER_URL) return;
+
   setCfStatus('connecting', 'Menghubungkan ke Worker...');
+
   try {
     const res = await fetch(WORKER_URL + '?action=ping');
     const data = await res.json();
+
     if (data.status === 'ok') {
       cfConnected = true;
       setCfStatus('online', 'Realtime — tersinkron');
-      // Pull data pertama kali
+
       await cfPull();
       startCfPolling();
     } else {
@@ -4657,7 +4665,6 @@ async function initCloudflare() {
     setCfStatus('offline', 'Worker tidak terjangkau: ' + e.message);
   }
 }
-
 async function cfPull() {
   const WORKER_URL = getWorkerUrl();
   if (!WORKER_URL) return;
@@ -4775,15 +4782,6 @@ function generateIndexWithWorkerUrl(url) {
   a.download = 'index.html';
   a.click();
   showToast('📥 index.html baru didownload — upload ke GitHub!', 'success');
-}
-
-// Override initCloudflare to also check localStorage
-const __cfOrigInit = initCloudflare;
-async function initCloudflare() {
-  // Check localStorage for saved URL (overrides hardcoded empty)
-  const saved = localStorage.getItem(CF_URL_KEY);
-  if (saved) window._CF_WORKER_URL = saved;
-  await __cfOrigInit();
 }
 
 // Override getWorkerUrl dynamically
