@@ -1,0 +1,3909 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduRank AI — Sistem Penilaian Mahasiswa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ======== ROOT VARIABLES ======== */
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #0f1629;
+  --bg-card: #131929;
+  --bg-glass: rgba(19, 25, 41, 0.85);
+  --bg-hover: rgba(99, 102, 241, 0.08);
+  --bg-active: rgba(99, 102, 241, 0.15);
+
+  --indigo-50: #eef2ff;
+  --indigo-100: #e0e7ff;
+  --indigo-400: #818cf8;
+  --indigo-500: #6366f1;
+  --indigo-600: #4f46e5;
+  --indigo-700: #4338ca;
+
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+
+  --violet-400: #a78bfa;
+  --violet-500: #8b5cf6;
+
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --yellow-400: #facc15;
+  --orange-400: #fb923c;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+
+  --text-primary: #f1f5ff;
+  --text-secondary: #8892b0;
+  --text-muted: #4a5568;
+  --text-accent: #818cf8;
+
+  --border: rgba(99, 102, 241, 0.15);
+  --border-hover: rgba(99, 102, 241, 0.35);
+  --border-glow: rgba(99, 102, 241, 0.5);
+
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.15);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --sidebar-width: 240px;
+  --font: 'Sora', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* ======== LIGHT MODE ======== */
+[data-theme="light"] {
+  --bg-primary: #f0f4ff;
+  --bg-secondary: #e8eeff;
+  --bg-card: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.92);
+  --bg-hover: rgba(99, 102, 241, 0.06);
+  --bg-active: rgba(99, 102, 241, 0.12);
+
+  --indigo-400: #6366f1;
+  --indigo-500: #4f46e5;
+  --indigo-600: #4338ca;
+
+  --green-400: #16a34a;
+  --green-500: #15803d;
+  --yellow-400: #ca8a04;
+  --orange-400: #ea580c;
+  --red-400: #dc2626;
+  --red-500: #b91c1c;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-accent: #4f46e5;
+
+  --border: rgba(99, 102, 241, 0.18);
+  --border-hover: rgba(99, 102, 241, 0.40);
+  --border-glow: rgba(99, 102, 241, 0.35);
+
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.12);
+}
+
+[data-theme="light"] .app-bg {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(99,102,241,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(59,130,246,0.05) 0%, transparent 60%),
+    linear-gradient(var(--bg-primary), var(--bg-primary));
+}
+[data-theme="light"] .grid-pattern {
+  background-image:
+    linear-gradient(rgba(99,102,241,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.06) 1px, transparent 1px);
+}
+[data-theme="light"] thead th {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+[data-theme="light"] .sidebar {
+  box-shadow: 2px 0 16px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .topbar {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .podium-card.gold  { background: linear-gradient(135deg,rgba(251,191,36,0.15),rgba(251,191,36,0.05)); }
+[data-theme="light"] .podium-card.silver{ background: linear-gradient(135deg,rgba(156,163,175,0.15),rgba(156,163,175,0.05)); }
+[data-theme="light"] .podium-card.bronze{ background: linear-gradient(135deg,rgba(205,127,50,0.15),rgba(205,127,50,0.05)); }
+[data-theme="light"] .stat-card.green .stat-icon { background: rgba(22,163,74,0.12); }
+[data-theme="light"] .stat-card.red .stat-icon   { background: rgba(220,38,38,0.12); }
+[data-theme="light"] select.form-control option   { background: #ffffff; color: #0f172a; }
+[data-theme="light"] input[type=range]::-webkit-slider-runnable-track { background: #e0e7ff; }
+[data-theme="light"] ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+[data-theme="light"] code { color: var(--indigo-500) !important; }
+
+/* ======== RESET ======== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ======== SCROLLBAR ======== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--indigo-500); }
+
+/* ======== GRID BACKGROUND ======== */
+.app-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(99,102,241,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(59,130,246,0.08) 0%, transparent 60%),
+    linear-gradient(var(--bg-primary), var(--bg-primary));
+}
+.grid-pattern {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ======== LAYOUT ======== */
+.app-shell { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+
+/* ======== SIDEBAR ======== */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--border);
+  position: fixed; left: 0; top: 0; bottom: 0;
+  display: flex; flex-direction: column;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--indigo-500), var(--blue-500));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 0 20px rgba(99,102,241,0.4);
+}
+.logo-text { font-size: 16px; font-weight: 700; letter-spacing: -0.5px; }
+.logo-sub { font-size: 10px; color: var(--text-secondary); font-family: var(--font-mono); letter-spacing: 0.5px; }
+.sidebar-class {
+  margin: 12px 16px;
+  padding: 10px 14px;
+  background: var(--bg-active);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 11px; color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+.sidebar-class span { color: var(--indigo-400); font-weight: 600; display: block; font-size: 12px; }
+
+.sidebar-nav { flex: 1; padding: 8px 12px; overflow-y: auto; }
+.nav-section-label {
+  font-size: 10px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  padding: 12px 8px 6px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: var(--radius-sm);
+  cursor: pointer; transition: all 0.2s ease;
+  font-size: 13.5px; font-weight: 500; color: var(--text-secondary);
+  position: relative; margin: 2px 0;
+  border: 1px solid transparent;
+}
+.nav-item:hover { background: var(--bg-hover); color: var(--text-primary); border-color: var(--border); }
+.nav-item.active {
+  background: var(--bg-active);
+  color: var(--indigo-400);
+  border-color: var(--border-hover);
+}
+.nav-item.active::before {
+  content: ''; position: absolute; left: -12px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 20px; background: var(--indigo-500); border-radius: 2px;
+}
+.nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-badge {
+  margin-left: auto; background: var(--indigo-600); color: white;
+  font-size: 10px; padding: 2px 7px; border-radius: 20px; font-family: var(--font-mono);
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+.theme-toggle {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: var(--radius-sm);
+  cursor: pointer; transition: all 0.2s;
+  font-size: 12px; color: var(--text-secondary);
+  background: var(--bg-hover); border: 1px solid var(--border);
+}
+.theme-toggle:hover { border-color: var(--border-hover); color: var(--text-primary); }
+
+/* ======== MAIN CONTENT ======== */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1; min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-title { font-size: 16px; font-weight: 600; }
+.topbar-breadcrumb { font-size: 12px; color: var(--text-secondary); font-family: var(--font-mono); }
+
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.btn-icon {
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  background: var(--bg-hover); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s; font-size: 16px; color: var(--text-secondary);
+}
+.btn-icon:hover { border-color: var(--border-hover); color: var(--text-primary); }
+
+.page-content { padding: 28px 32px; flex: 1; }
+
+/* ======== CARDS ======== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-glow); }
+.card-header {
+  padding: 20px 24px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.card-subtitle { font-size: 12px; color: var(--text-secondary); }
+.card-body { padding: 20px 24px 24px; }
+
+/* ======== STAT CARDS ======== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px; margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  position: relative; overflow: hidden;
+  transition: all 0.25s ease;
+}
+.stat-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.stat-card.indigo::before { background: linear-gradient(90deg, var(--indigo-500), var(--violet-500)); }
+.stat-card.blue::before { background: linear-gradient(90deg, var(--blue-500), var(--blue-400)); }
+.stat-card.green::before { background: linear-gradient(90deg, var(--green-500), var(--green-400)); }
+.stat-card.yellow::before { background: linear-gradient(90deg, #f59e0b, var(--yellow-400)); }
+.stat-card.red::before { background: linear-gradient(90deg, var(--red-500), var(--red-400)); }
+.stat-card.orange::before { background: linear-gradient(90deg, #ea580c, var(--orange-400)); }
+.stat-card.violet::before { background: linear-gradient(90deg, var(--violet-500), var(--violet-400)); }
+.stat-card.cyan::before { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+.stat-card.rose::before { background: linear-gradient(90deg, #e11d48, #fb7185); }
+
+.stat-icon {
+  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 12px;
+}
+.stat-card.indigo .stat-icon { background: rgba(99,102,241,0.15); }
+.stat-card.blue .stat-icon { background: rgba(59,130,246,0.15); }
+.stat-card.green .stat-icon { background: rgba(34,197,94,0.15); }
+.stat-card.yellow .stat-icon { background: rgba(245,158,11,0.15); }
+.stat-card.red .stat-icon { background: rgba(239,68,68,0.15); }
+.stat-card.orange .stat-icon { background: rgba(234,88,12,0.15); }
+.stat-card.violet .stat-icon { background: rgba(139,92,246,0.15); }
+.stat-card.cyan .stat-icon { background: rgba(8,145,178,0.15); }
+.stat-card.rose .stat-icon { background: rgba(225,29,72,0.15); }
+
+.stat-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+.stat-value { font-size: 26px; font-weight: 700; color: var(--text-primary); line-height: 1.1; }
+.stat-sub { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+
+/* ======== BUTTONS ======== */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  font-family: var(--font); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--indigo-600); color: white; border-color: var(--indigo-500);
+}
+.btn-primary:hover { background: var(--indigo-500); box-shadow: 0 0 20px rgba(99,102,241,0.35); }
+.btn-secondary {
+  background: var(--bg-hover); color: var(--text-primary); border-color: var(--border);
+}
+.btn-secondary:hover { border-color: var(--border-hover); background: var(--bg-active); }
+.btn-danger {
+  background: rgba(239,68,68,0.15); color: var(--red-400); border-color: rgba(239,68,68,0.3);
+}
+.btn-danger:hover { background: rgba(239,68,68,0.25); }
+.btn-success {
+  background: rgba(34,197,94,0.15); color: var(--green-400); border-color: rgba(34,197,94,0.3);
+}
+.btn-success:hover { background: rgba(34,197,94,0.25); }
+.btn-sm { padding: 5px 11px; font-size: 12px; }
+.btn-xs { padding: 3px 8px; font-size: 11px; }
+
+/* ======== TABLES ======== */
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  background: var(--bg-secondary); color: var(--text-secondary);
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+tbody tr { border-bottom: 1px solid rgba(99,102,241,0.06); transition: background 0.15s; }
+tbody tr:hover { background: var(--bg-hover); }
+tbody td { padding: 11px 16px; font-size: 13.5px; vertical-align: middle; }
+tbody tr:last-child { border-bottom: none; }
+
+/* ======== BADGES ======== */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; font-family: var(--font-mono);
+}
+.badge-A { background: rgba(34,197,94,0.15); color: var(--green-400); border: 1px solid rgba(34,197,94,0.25); }
+.badge-B { background: rgba(99,102,241,0.15); color: var(--indigo-400); border: 1px solid rgba(99,102,241,0.25); }
+.badge-C { background: rgba(245,158,11,0.15); color: var(--yellow-400); border: 1px solid rgba(245,158,11,0.25); }
+.badge-D { background: rgba(234,88,12,0.15); color: var(--orange-400); border: 1px solid rgba(234,88,12,0.25); }
+.badge-E { background: rgba(239,68,68,0.15); color: var(--red-400); border: 1px solid rgba(239,68,68,0.25); }
+.badge-lulus { background: rgba(34,197,94,0.12); color: var(--green-400); border: 1px solid rgba(34,197,94,0.2); }
+.badge-tidak { background: rgba(239,68,68,0.12); color: var(--red-400); border: 1px solid rgba(239,68,68,0.2); }
+
+/* ======== FORMS ======== */
+.form-group { margin-bottom: 18px; }
+.form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-control {
+  width: 100%; padding: 10px 14px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-primary);
+  font-family: var(--font); font-size: 13.5px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-control:focus { border-color: var(--indigo-500); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+.form-control::placeholder { color: var(--text-muted); }
+select.form-control option { background: var(--bg-secondary); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-row-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+/* ======== SEARCH ======== */
+.search-wrapper { position: relative; }
+.search-wrapper input { padding-left: 40px; }
+.search-icon {
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--text-muted); font-size: 15px; pointer-events: none;
+}
+
+/* ======== PAGES (hidden by default) ======== */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ======== PAGE HEADER ======== */
+.page-header { margin-bottom: 28px; }
+.page-title { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
+.page-desc { font-size: 13px; color: var(--text-secondary); }
+
+/* ======== TOOLBAR ======== */
+.toolbar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.toolbar-left { display: flex; align-items: center; gap: 10px; flex: 1; }
+.toolbar-right { display: flex; align-items: center; gap: 8px; }
+
+/* ======== MODAL ======== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.modal {
+  background: var(--bg-card); border: 1px solid var(--border-hover);
+  border-radius: var(--radius-xl); padding: 28px;
+  width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+  transform: translateY(20px) scale(0.96); transition: transform 0.25s;
+  box-shadow: var(--shadow-lg), 0 0 60px rgba(99,102,241,0.1);
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.modal-title { font-size: 16px; font-weight: 700; }
+.modal-close { cursor: pointer; font-size: 20px; color: var(--text-secondary); padding: 4px; }
+.modal-close:hover { color: var(--text-primary); }
+.modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+
+/* ======== TOAST ======== */
+.toast-container {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.toast {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 18px; border-radius: var(--radius-md);
+  background: var(--bg-card); border: 1px solid var(--border);
+  font-size: 13px; min-width: 280px; max-width: 400px;
+  animation: slideIn 0.3s ease;
+  box-shadow: var(--shadow-lg);
+}
+.toast.success { border-color: rgba(34,197,94,0.3); }
+.toast.error { border-color: rgba(239,68,68,0.3); }
+.toast.info { border-color: var(--border-hover); }
+.toast-icon { font-size: 18px; }
+.toast-msg { flex: 1; }
+@keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+/* ======== PROGRESS ======== */
+.progress-bar {
+  height: 5px; background: var(--bg-secondary);
+  border-radius: 3px; overflow: hidden;
+}
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+
+/* ======== SCORE BADGE (large) ======== */
+.score-badge {
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 90px; height: 90px; border-radius: 50%;
+  border: 3px solid; font-weight: 700;
+}
+
+/* ======== RANKING ======== */
+.rank-number { font-family: var(--font-mono); font-weight: 700; font-size: 13px; }
+.rank-1 { color: #fbbf24; }
+.rank-2 { color: #9ca3af; }
+.rank-3 { color: #cd7f32; }
+
+/* ======== LEADERBOARD ======== */
+.podium { display: flex; align-items: flex-end; justify-content: center; gap: 16px; margin-bottom: 32px; }
+.podium-card {
+  border-radius: var(--radius-lg); padding: 20px 16px; text-align: center;
+  border: 2px solid;
+  flex: 1; max-width: 200px;
+  position: relative; overflow: hidden;
+  transition: transform 0.2s;
+}
+.podium-card:hover { transform: translateY(-4px); }
+.podium-card.gold { border-color: #fbbf24; background: linear-gradient(135deg, rgba(251,191,36,0.1), rgba(251,191,36,0.04)); height: 220px; }
+.podium-card.silver { border-color: #9ca3af; background: linear-gradient(135deg, rgba(156,163,175,0.1), rgba(156,163,175,0.04)); height: 180px; }
+.podium-card.bronze { border-color: #cd7f32; background: linear-gradient(135deg, rgba(205,127,50,0.1), rgba(205,127,50,0.04)); height: 160px; }
+.podium-medal { font-size: 32px; margin-bottom: 8px; }
+.podium-name { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+.podium-score { font-size: 24px; font-weight: 800; }
+.podium-nim { font-size: 10px; color: var(--text-secondary); font-family: var(--font-mono); }
+.gold .podium-score { color: #fbbf24; }
+.silver .podium-score { color: #9ca3af; }
+.bronze .podium-score { color: #cd7f32; }
+
+/* ======== INDIVIDUAL PROFILE ======== */
+.profile-header {
+  display: flex; align-items: center; gap: 24px;
+  padding: 24px; border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(59,130,246,0.05));
+  border: 1px solid var(--border); margin-bottom: 24px;
+}
+.profile-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--indigo-500), var(--blue-500));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; font-weight: 700; color: white;
+  flex-shrink: 0;
+}
+.profile-info h2 { font-size: 20px; font-weight: 700; margin-bottom: 3px; }
+.profile-info p { font-size: 12px; color: var(--text-secondary); font-family: var(--font-mono); }
+.profile-stats { margin-left: auto; display: flex; gap: 20px; }
+.profile-stat { text-align: center; }
+.profile-stat-val { font-size: 22px; font-weight: 800; }
+.profile-stat-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ======== CHART CONTAINER ======== */
+.chart-container { position: relative; }
+
+/* ======== PERTEMUAN GRID ======== */
+.pertemuan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+.pertemuan-card {
+  padding: 14px; border-radius: var(--radius-md);
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.pertemuan-card:hover { border-color: var(--border-hover); }
+.pertemuan-card.filled { border-color: rgba(99,102,241,0.3); }
+.pertemuan-num { font-size: 11px; font-weight: 600; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 6px; }
+.pertemuan-scores { display: flex; flex-direction: column; gap: 3px; }
+.pertemuan-score-row { display: flex; justify-content: space-between; font-size: 11px; }
+.pertemuan-score-row span:first-child { color: var(--text-secondary); }
+.pertemuan-score-row span:last-child { font-weight: 600; color: var(--text-primary); font-family: var(--font-mono); }
+.pertemuan-total { font-size: 13px; font-weight: 700; color: var(--indigo-400); margin-top: 8px; border-top: 1px solid var(--border); padding-top: 6px; }
+
+/* ======== INSIGHT CARDS ======== */
+.insight-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.insight-card {
+  padding: 16px 18px; border-radius: var(--radius-md);
+  border: 1px solid var(--border); background: var(--bg-secondary);
+  display: flex; align-items: flex-start; gap: 14px;
+  transition: all 0.2s;
+}
+.insight-card:hover { border-color: var(--border-hover); transform: translateX(3px); }
+.insight-icon { font-size: 24px; flex-shrink: 0; }
+.insight-label { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.insight-value { font-size: 14px; font-weight: 700; color: var(--text-primary); margin: 2px 0; }
+.insight-desc { font-size: 11px; color: var(--text-secondary); }
+
+/* ======== KEHADIRAN SHORTCUT ======== */
+.kehadiran-shortcuts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.kehadiran-shortcut {
+  padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; border: 1px solid;
+}
+.kehadiran-shortcut.hadir { background: rgba(34,197,94,0.1); color: var(--green-400); border-color: rgba(34,197,94,0.25); }
+.kehadiran-shortcut.hadir:hover { background: rgba(34,197,94,0.2); }
+.kehadiran-shortcut.izin { background: rgba(99,102,241,0.1); color: var(--indigo-400); border-color: rgba(99,102,241,0.25); }
+.kehadiran-shortcut.izin:hover { background: rgba(99,102,241,0.2); }
+.kehadiran-shortcut.sakit { background: rgba(245,158,11,0.1); color: var(--yellow-400); border-color: rgba(245,158,11,0.25); }
+.kehadiran-shortcut.sakit:hover { background: rgba(245,158,11,0.2); }
+.kehadiran-shortcut.alpha { background: rgba(239,68,68,0.1); color: var(--red-400); border-color: rgba(239,68,68,0.25); }
+.kehadiran-shortcut.alpha:hover { background: rgba(239,68,68,0.2); }
+
+/* ======== PROGRESS PERTEMUAN ======== */
+.pertemuan-progress {
+  display: flex; gap: 3px; flex-wrap: wrap; margin-top: 6px;
+}
+.p-dot {
+  width: 18px; height: 18px; border-radius: 4px;
+  background: var(--bg-hover); border: 1px solid var(--border);
+  font-size: 9px; display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); font-family: var(--font-mono); cursor: default;
+  transition: all 0.15s;
+}
+.p-dot.filled { background: var(--bg-active); border-color: var(--indigo-500); color: var(--indigo-400); }
+
+/* ======== EMPTY STATE ======== */
+.empty-state {
+  text-align: center; padding: 60px 20px;
+  color: var(--text-secondary);
+}
+.empty-icon { font-size: 48px; margin-bottom: 14px; opacity: 0.5; }
+.empty-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); }
+.empty-desc { font-size: 13px; }
+
+/* ======== SKELETON LOADING ======== */
+.skeleton { background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-hover) 50%, var(--bg-card) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+/* ======== ANALYTICS ======== */
+.analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.analytics-grid .full-width { grid-column: 1/-1; }
+.analytics-card { padding: 20px 24px; }
+.chart-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.chart-sub { font-size: 11px; color: var(--text-secondary); margin-bottom: 16px; }
+
+/* ======== HEATMAP ======== */
+.heatmap-container { overflow-x: auto; }
+.heatmap-table { border-collapse: separate; border-spacing: 3px; }
+.heatmap-table th { font-size: 10px; color: var(--text-secondary); font-weight: 500; padding: 2px 6px; white-space: nowrap; }
+.heatmap-table td { width: 32px; height: 32px; border-radius: 5px; text-align: center; font-size: 10px; font-family: var(--font-mono); vertical-align: middle; cursor: default; transition: transform 0.15s; }
+.heatmap-table td:hover { transform: scale(1.2); z-index: 1; position: relative; }
+.heatmap-row-label { font-size: 10px; color: var(--text-secondary); max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ======== EXPORT MENU ======== */
+.export-menu {
+  position: absolute; top: 100%; right: 0; margin-top: 6px;
+  background: var(--bg-card); border: 1px solid var(--border-hover);
+  border-radius: var(--radius-md); padding: 6px;
+  min-width: 160px; z-index: 100;
+  box-shadow: var(--shadow-lg);
+  display: none;
+}
+.export-menu.open { display: block; animation: fadeIn 0.15s ease; }
+.export-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+  border-radius: var(--radius-sm); cursor: pointer; font-size: 13px;
+  transition: background 0.15s; color: var(--text-primary);
+}
+.export-item:hover { background: var(--bg-hover); }
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 900px) {
+  :root { --sidebar-width: 200px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .analytics-grid { grid-template-columns: 1fr; }
+  .analytics-grid .full-width { grid-column: 1; }
+  .form-row { grid-template-columns: 1fr; }
+  .form-row-4 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .main-content { margin-left: 0; }
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .page-content { padding: 16px; }
+  .topbar { padding: 12px 16px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .form-row-4 { grid-template-columns: 1fr 1fr; }
+  .podium { flex-direction: column; align-items: center; }
+  .podium-card { max-width: 100%; width: 100%; height: auto !important; }
+  .profile-stats { display: none; }
+}
+
+/* ======== RANGE INPUT ======== */
+input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: var(--bg-secondary); border-radius: 2px; outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--indigo-500); cursor: pointer; box-shadow: 0 0 8px rgba(99,102,241,0.4); }
+input[type=range]::-webkit-slider-runnable-track { background: var(--bg-secondary); border-radius: 2px; }
+
+/* ======== SORT HEADER ======== */
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { color: var(--text-primary); }
+th.sortable span { margin-left: 4px; opacity: 0.5; }
+th.sortable.asc span, th.sortable.desc span { opacity: 1; color: var(--indigo-400); }
+
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  background: var(--bg-hover); border: 1px solid var(--border); color: var(--text-secondary);
+  cursor: pointer; transition: all 0.15s;
+}
+.chip.active { background: var(--bg-active); border-color: var(--indigo-500); color: var(--indigo-400); }
+
+/* ======== VERTICAL DOTS ======== */
+.dot-divider { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.dot-divider span { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
+
+/* ======== LOADING SPINNER ======== */
+.spinner-overlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(10,14,26,0.8); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.spinner-overlay.show { opacity: 1; pointer-events: auto; }
+.spinner {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 3px solid var(--border);
+  border-top-color: var(--indigo-500);
+  animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ======== MOBILE HAMBURGER ======== */
+.hamburger { display: none; }
+@media (max-width: 600px) { .hamburger { display: flex; } }
+</style>
+</head>
+<body>
+<!-- Background -->
+<div class="app-bg"><div class="grid-pattern"></div></div>
+
+<!-- Spinner -->
+<div class="spinner-overlay" id="spinner"><div class="spinner"></div></div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<!-- App Shell -->
+<div class="app-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">
+        <div class="logo-icon">🎓</div>
+        <div>
+          <div class="logo-text">EduRank AI</div>
+          <div class="logo-sub">v2.0 · PREMIUM</div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-class">
+      Filter Kelas<br>
+      <span id="kelasLabel">Semua Kelas</span>
+    </div>
+    <div style="padding:0 12px 8px;display:flex;flex-direction:column;gap:4px" id="kelasFilterSidebar">
+      <div class="nav-item active" data-kelas="Semua" onclick="setKelasFilter('Semua',this)" style="font-size:12px;padding:7px 12px">
+        <span class="nav-icon">🏫</span> Semua Kelas
+        <span class="nav-badge" id="badgeKelasAll">43</span>
+      </div>
+      <div class="nav-item" data-kelas="Treasury-4" onclick="setKelasFilter('Treasury-4',this)" style="font-size:12px;padding:7px 12px">
+        <span class="nav-icon">4️⃣</span> Treasury-4
+        <span class="nav-badge" id="badgeKelas4">22</span>
+      </div>
+      <div class="nav-item" data-kelas="Treasury-5" onclick="setKelasFilter('Treasury-5',this)" style="font-size:12px;padding:7px 12px">
+        <span class="nav-icon">5️⃣</span> Treasury-5
+        <span class="nav-badge" id="badgeKelas5">21</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <div class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">📊</span> Dashboard
+      </div>
+      <div class="nav-section-label">Data</div>
+      <div class="nav-item" data-page="mahasiswa">
+        <span class="nav-icon">👥</span> Data Mahasiswa
+        <span class="nav-badge" id="navBadgeTotal">22</span>
+      </div>
+      <div class="nav-item" data-page="input">
+        <span class="nav-icon">✏️</span> Input Nilai
+      </div>
+      <div class="nav-section-label">Laporan</div>
+      <div class="nav-item" data-page="rekap-individu">
+        <span class="nav-icon">👤</span> Rekap Individu
+      </div>
+      <div class="nav-item" data-page="rekap-kelas">
+        <span class="nav-icon">📋</span> Rekap Kelas
+      </div>
+      <div class="nav-item" data-page="ranking">
+        <span class="nav-icon">🏆</span> Ranking
+      </div>
+      <div class="nav-section-label">Insights</div>
+      <div class="nav-item" data-page="analytics">
+        <span class="nav-icon">📈</span> Analytics
+      </div>
+      <div class="nav-item" data-page="export">
+        <span class="nav-icon">💾</span> Export Data
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <span id="themeIcon">🌙</span>
+        <span style="flex:1" id="themeLabel">Dark Mode</span>
+        <span style="font-size:11px;color:var(--indigo-400)" id="themeStatus">ON</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-icon hamburger" id="hamburger">☰</button>
+        <div>
+          <div class="topbar-title" id="topbarTitle">Dashboard</div>
+          <div class="topbar-breadcrumb" id="topbarBreadcrumb">EduRank AI / Dashboard</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="btn-icon" onclick="refreshData()" title="Refresh">↻</div>
+        <div class="btn-icon" onclick="showPage('input')" title="Input Nilai">✏️</div>
+        <div style="padding:6px 14px;background:var(--bg-active);border:1px solid var(--border-hover);border-radius:var(--radius-sm);font-size:12px;font-family:var(--font-mono);color:var(--indigo-400)" id="totalMhsTopbar">43 Mahasiswa</div>
+        <!-- Firebase status -->
+        <div id="fbStatusBar" style="display:none;align-items:center;gap:7px;padding:6px 12px;border-radius:var(--radius-sm);background:var(--bg-hover);border:1px solid var(--border);font-size:11px;color:var(--text-secondary)">
+          <span id="fbStatusDot" style="width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;background:#f59e0b;color:white">⟳</span>
+          <span id="fbStatusLabel">Menghubungkan...</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <!-- ===================== DASHBOARD PAGE ===================== -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div class="page-title">Dashboard Overview</div>
+          <div class="page-desc">Ringkasan performa akademik kelas secara real-time</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="dashboardStats"></div>
+
+        <!-- Charts Row 1 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px" class="analytics-grid" id="dashCharts1">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Distribusi Predikat</div></div>
+            <div class="card-body" style="height:240px"><canvas id="chartDistribusi"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Rata-rata Komponen Nilai</div></div>
+            <div class="card-body" style="height:240px"><canvas id="chartKomponen"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Performers -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px" id="performerGrid">
+          <div class="card" id="topPerformerCard"><div class="card-header"><div class="card-title">🥇 Top Performer</div></div><div class="card-body" id="topPerformerBody">—</div></div>
+          <div class="card" id="mostImprovedCard"><div class="card-header"><div class="card-title">📈 Most Improved</div></div><div class="card-body" id="mostImprovedBody">—</div></div>
+          <div class="card" id="attendanceLeaderCard"><div class="card-header"><div class="card-title">✅ Attendance Leader</div></div><div class="card-body" id="attendanceLeaderBody">—</div></div>
+        </div>
+
+        <!-- Quick Table -->
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Top 5 Mahasiswa</div><div class="card-subtitle">Berdasarkan nilai akhir tertinggi</div></div>
+            <button class="btn btn-secondary btn-sm" onclick="showPage('ranking')">Lihat Semua →</button>
+          </div>
+          <div class="card-body" style="padding-top:12px">
+            <div class="table-wrapper"><table id="dashTopTable"><thead><tr><th>#</th><th>Nama</th><th>Nilai Akhir</th><th>Predikat</th><th>Progress</th></tr></thead><tbody id="dashTopBody"></tbody></table></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== MAHASISWA PAGE ===================== -->
+      <div class="page" id="page-mahasiswa">
+        <div class="page-header">
+          <div class="page-title">Data Mahasiswa</div>
+          <div class="page-desc">Kelola daftar mahasiswa kelas</div>
+        </div>
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <div class="search-wrapper" style="max-width:280px;flex:1">
+              <span class="search-icon">🔍</span>
+              <input type="text" class="form-control" id="searchMhs" placeholder="Cari nama atau NIM..." oninput="renderMahasiswaTable()">
+            </div>
+            <div class="chips" id="filterPredikat">
+              <div class="chip active" data-val="">Semua</div>
+              <div class="chip" data-val="A">A</div>
+              <div class="chip" data-val="B">B</div>
+              <div class="chip" data-val="C">C</div>
+              <div class="chip" data-val="D">D</div>
+              <div class="chip" data-val="E">E</div>
+            </div>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-primary" onclick="openAddMahasiswaModal()">+ Tambah Mahasiswa</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th class="sortable" data-col="rank">Rank <span>↕</span></th>
+                  <th class="sortable" data-col="nim">NIM <span>↕</span></th>
+                  <th class="sortable" data-col="nama">Nama Mahasiswa <span>↕</span></th>
+                  <th class="sortable" data-col="kelas">Kelas <span>↕</span></th>
+                  <th class="sortable" data-col="nilaiAkhir">Nilai Akhir <span>↕</span></th>
+                  <th>Predikat</th>
+                  <th>Progres</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="mahasiswaTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== INPUT NILAI PAGE ===================== -->
+      <div class="page" id="page-input">
+        <div class="page-header">
+          <div class="page-title">Input Nilai</div>
+          <div class="page-desc">Input nilai aktivitas per pertemuan, serta UTS dan UAS</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px" id="inputUjianRow">
+          <!-- UTS Card -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">📋 Nilai UTS</div><div class="card-subtitle">Bobot 30%</div></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Pilih Mahasiswa</label>
+                <select class="form-control" id="inputUjianMhs" onchange="onUjianMhsChange()">
+                  <option value="">— Pilih Mahasiswa —</option>
+                </select>
+              </div>
+              <div id="ujianFields" style="display:none">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Nilai UTS (0–100)</label>
+                    <input type="number" class="form-control" id="inputUTS" min="0" max="100" placeholder="0 – 100" oninput="clampUjian('UTS')">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Nilai UAS (0–100)</label>
+                    <input type="number" class="form-control" id="inputUAS" min="0" max="100" placeholder="0 – 100" oninput="clampUjian('UAS')">
+                  </div>
+                </div>
+                <!-- Preview Nilai Akhir -->
+                <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;margin-bottom:14px" id="ujianPreviewBox">
+                  <div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Preview Nilai Akhir</div>
+                  <div id="ujianPreview"></div>
+                </div>
+                <div style="display:flex;gap:10px">
+                  <button class="btn btn-primary" style="flex:1" onclick="saveUjian()">💾 Simpan UTS & UAS</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteUjian()" id="btnDeleteUjian" style="display:none">🗑️</button>
+                </div>
+              </div>
+              <div id="ujianPlaceholder" style="text-align:center;padding:24px;color:var(--text-muted)">
+                <div style="font-size:30px;margin-bottom:8px">👆</div>
+                <div style="font-size:13px">Pilih mahasiswa untuk input nilai ujian</div>
+              </div>
+            </div>
+          </div>
+          <!-- Rekap Ujian semua mahasiswa -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">📊 Status UTS & UAS</div></div>
+            <div class="card-body" style="padding-top:10px">
+              <div class="table-wrapper"><table id="ujianStatusTable">
+                <thead><tr><th>Nama</th><th>UTS</th><th>UAS</th><th>Aktivitas</th><th>Nilai Akhir</th></tr></thead>
+                <tbody id="ujianStatusBody"></tbody>
+              </table></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:24px" id="inputGrid">
+          <!-- Left: Form Aktivitas -->
+          <div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">✏️ Nilai Aktivitas per Pertemuan</div><div class="card-subtitle">Bobot 40%</div></div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Mahasiswa</label>
+                  <select class="form-control" id="inputMhs" onchange="onInputMhsChange()">
+                    <option value="">— Pilih Mahasiswa —</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Pertemuan</label>
+                  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px" id="pertemuanBtns"></div>
+                </div>
+                <input type="hidden" id="inputPertemuan" value="">
+
+                <div id="inputFormFields" style="display:none">
+                  <hr style="border-color:var(--border);margin:16px 0">
+                  <div class="form-group">
+                    <label class="form-label">HDR — Kehadiran (0–100)</label>
+                    <input type="number" class="form-control" id="inputHDR" min="0" max="100" placeholder="0 – 100" oninput="updateRangeDisplay('HDR')">
+                    <input type="range" min="0" max="100" id="rangeHDR" value="100" oninput="syncRange('HDR')" style="margin-top:8px">
+                    <div class="kehadiran-shortcuts">
+                      <div class="kehadiran-shortcut hadir" onclick="setKehadiran(100)">✓ Hadir (100)</div>
+                      <div class="kehadiran-shortcut izin" onclick="setKehadiran(75)">📄 Izin (75)</div>
+                      <div class="kehadiran-shortcut sakit" onclick="setKehadiran(75)">🤒 Sakit (75)</div>
+                      <div class="kehadiran-shortcut alpha" onclick="setKehadiran(0)">✗ Alpha (0)</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">SKP — Sikap & Partisipasi Belajar (0–100)</label>
+                    <input type="number" class="form-control" id="inputSKP" min="0" max="100" placeholder="0 – 100" oninput="updateRangeDisplay('SKP')">
+                    <input type="range" min="0" max="100" id="rangeSKP" value="0" oninput="syncRange('SKP')" style="margin-top:8px">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">RT — Kuis / Ujian Harian / Review Test (0–100)</label>
+                    <input type="number" class="form-control" id="inputRT" min="0" max="100" placeholder="0 – 100" oninput="updateRangeDisplay('RT')">
+                    <input type="range" min="0" max="100" id="rangeRT" value="0" oninput="syncRange('RT')" style="margin-top:8px">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">TGS — PR / Penugasan Mandiri/Kelompok (0–100)</label>
+                    <input type="number" class="form-control" id="inputTGS" min="0" max="100" placeholder="0 – 100" oninput="updateRangeDisplay('TGS')">
+                    <input type="range" min="0" max="100" id="rangeTGS" value="0" oninput="syncRange('TGS')" style="margin-top:8px">
+                  </div>
+
+                  <!-- Preview -->
+                  <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;margin-bottom:16px">
+                    <div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Preview Nilai Pertemuan Ini</div>
+                    <div id="previewScores" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px"></div>
+                  </div>
+
+                  <div style="display:flex;gap:10px">
+                    <button class="btn btn-primary" style="flex:1" onclick="saveNilai()">💾 Simpan Nilai</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteNilai()" id="btnDeleteNilai" style="display:none">🗑️</button>
+                  </div>
+                </div>
+
+                <div id="inputPlaceholder" style="text-align:center;padding:30px;color:var(--text-muted)">
+                  <div style="font-size:36px;margin-bottom:10px">👆</div>
+                  <div>Pilih mahasiswa & pertemuan<br>untuk mulai input nilai</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Progress -->
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-header"><div class="card-title">Progress Input Aktivitas</div><div id="inputProgressText" style="font-size:12px;color:var(--text-secondary)">0/0 pertemuan</div></div>
+              <div class="card-body">
+                <div id="inputProgressDots" class="pertemuan-progress" style="margin-bottom:12px"></div>
+                <div class="progress-bar"><div class="progress-fill" id="inputProgressBar" style="width:0%;background:linear-gradient(90deg,var(--indigo-600),var(--blue-500))"></div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Riwayat Nilai Aktivitas</div></div>
+              <div class="card-body" style="padding-top:10px">
+                <div id="inputHistoryGrid" class="pertemuan-grid"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== REKAP INDIVIDU PAGE ===================== -->
+      <div class="page" id="page-rekap-individu">
+        <div class="page-header">
+          <div class="page-title">Rekap Individu</div>
+          <div class="page-desc">Analisis mendalam per mahasiswa</div>
+        </div>
+        <div class="form-group" style="max-width:360px">
+          <select class="form-control" id="selectRekapMhs" onchange="renderRekapIndividu()">
+            <option value="">— Pilih Mahasiswa —</option>
+          </select>
+        </div>
+        <div id="rekapIndividuContent"></div>
+      </div>
+
+      <!-- ===================== REKAP KELAS PAGE ===================== -->
+      <div class="page" id="page-rekap-kelas">
+        <div class="page-header">
+          <div class="page-title">Rekap Kelas</div>
+          <div class="page-desc">Seluruh mahasiswa dalam satu tabel komprehensif</div>
+        </div>
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <div class="search-wrapper" style="max-width:260px">
+              <span class="search-icon">🔍</span>
+              <input type="text" class="form-control" id="searchRekap" placeholder="Cari mahasiswa..." oninput="renderRekapKelas()">
+            </div>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-secondary btn-sm" onclick="exportTableCSV('rekapKelasTable','rekap-kelas')">⬇ CSV</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-wrapper">
+            <table id="rekapKelasTable">
+              <thead>
+                <tr>
+                  <th>Rank</th><th>NIM</th><th>Nama</th>
+                  <th>Aktivitas</th><th>UTS</th><th>UAS</th>
+                  <th>Nilai Akhir</th><th>Predikat</th>
+                </tr>
+              </thead>
+              <tbody id="rekapKelasBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== RANKING PAGE ===================== -->
+      <div class="page" id="page-ranking">
+        <div class="page-header">
+          <div class="page-title">🏆 Leaderboard</div>
+          <div class="page-desc">Peringkat mahasiswa berdasarkan nilai akhir</div>
+        </div>
+        <div id="podiumSection" class="podium"></div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Peringkat Lengkap</div></div>
+          <div class="card-body" style="padding-top:10px">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Rank</th><th>NIM</th><th>Nama</th><th>Nilai Akhir</th><th>Predikat</th><th>Aktivitas</th><th>UTS</th><th>UAS</th></tr>
+                </thead>
+                <tbody id="rankingTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== ANALYTICS PAGE ===================== -->
+      <div class="page" id="page-analytics">
+        <div class="page-header">
+          <div class="page-title">Analytics</div>
+          <div class="page-desc">Visualisasi mendalam performa akademik kelas dan individu</div>
+        </div>
+
+        <!-- Tab Toggle: Kelas vs Individu -->
+        <div style="display:flex;gap:8px;margin-bottom:20px">
+          <button class="btn btn-primary" id="analyticsTabKelas" onclick="switchAnalyticsTab('kelas')">📊 Analitik Kelas</button>
+          <button class="btn btn-secondary" id="analyticsTabIndividu" onclick="switchAnalyticsTab('individu')">👤 Analitik Individu</button>
+        </div>
+
+        <!-- ===== TAB KELAS ===== -->
+        <div id="analyticsKelasSection">
+          <!-- Insight Cards -->
+          <div class="insight-grid" id="insightGrid" style="margin-bottom:24px"></div>
+
+          <div class="analytics-grid">
+            <div class="card analytics-card">
+              <div class="chart-title">Distribusi Nilai Akhir</div>
+              <div class="chart-sub">Sebaran nilai seluruh mahasiswa</div>
+              <div style="height:220px"><canvas id="analyticsDistribusi"></canvas></div>
+            </div>
+            <div class="card analytics-card">
+              <div class="chart-title">Top 10 Mahasiswa</div>
+              <div class="chart-sub">Berdasarkan nilai akhir</div>
+              <div style="height:220px"><canvas id="analyticsTop10"></canvas></div>
+            </div>
+            <div class="card analytics-card full-width">
+              <div class="chart-title">Tren Rata-rata Nilai Kelas per Pertemuan</div>
+              <div class="chart-sub">Perkembangan nilai keseluruhan kelas dari pertemuan ke pertemuan</div>
+              <div style="height:220px"><canvas id="analyticsTren"></canvas></div>
+            </div>
+            <div class="card analytics-card">
+              <div class="chart-title">Grafik Kehadiran Kelas</div>
+              <div class="chart-sub">Rata-rata kehadiran per pertemuan</div>
+              <div style="height:220px"><canvas id="analyticsKehadiran"></canvas></div>
+            </div>
+            <div class="card analytics-card">
+              <div class="chart-title">Radar Kompetensi Kelas</div>
+              <div class="chart-sub">Rata-rata tiap komponen penilaian</div>
+              <div style="height:220px"><canvas id="analyticsRadar"></canvas></div>
+            </div>
+            <div class="card analytics-card full-width">
+              <div class="chart-title">Heatmap Performa Mahasiswa</div>
+              <div class="chart-sub">Nilai akhir per mahasiswa visualisasi warna (merah = rendah, hijau = tinggi)</div>
+              <div class="heatmap-container" id="heatmapContainer" style="margin-top:8px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== TAB INDIVIDU ===== -->
+        <div id="analyticsIndividuSection" style="display:none">
+          <div class="form-group" style="max-width:360px;margin-bottom:20px">
+            <label class="form-label">Pilih Mahasiswa</label>
+            <select class="form-control" id="analyticsSelectMhs" onchange="renderAnalyticsIndividu()">
+              <option value="">— Pilih Mahasiswa —</option>
+            </select>
+          </div>
+          <div id="analyticsIndividuContent">
+            <div class="empty-state"><div class="empty-icon">👤</div><div class="empty-title">Pilih mahasiswa</div><div class="empty-desc">untuk melihat analitik individu</div></div>
+          </div>
+        </div>nvas></div>
+          </div>
+          
+      
+
+      <!-- ===================== EXPORT PAGE ===================== -->
+      <div class="page" id="page-export">
+        <div class="page-header">
+          <div class="page-title">Export Data</div>
+          <div class="page-desc">Unduh data dalam berbagai format</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px">
+          <div class="card" style="padding:24px;cursor:pointer;transition:all 0.2s" onclick="pushToWorker()" onmouseenter="this.style.borderColor='var(--border-hover)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:12px">🌐</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Push ke Cloudflare</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Kirim semua data lokal ke Cloudflare Worker (pertama kali atau force sync)</div>
+          </div>
+          <div class="card" style="padding:24px;cursor:pointer;transition:all 0.2s" onclick="pushLocalToFirebase()" onmouseenter="this.style.borderColor='var(--border-hover)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:12px">🔥</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Push ke Firebase</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Kirim data lokal ke Firebase (pertama kali setup atau force sync)</div>
+          </div>
+          <div class="card" style="padding:24px;cursor:pointer;transition:all 0.2s" onclick="generateShareLink()" onmouseenter="this.style.borderColor='var(--border-hover)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:12px">🔗</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Share Link</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Buat link yang bisa dibuka di komputer lain untuk sinkronisasi data</div>
+          </div>
+          <div class="card" style="padding:24px;cursor:pointer;transition:all 0.2s" onclick="exportTableCSV('rekapKelasTable','rekap-kelas-edurank')" onmouseenter="this.style.borderColor='var(--border-hover)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:12px">📊</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Export CSV</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Rekap nilai seluruh mahasiswa dalam format CSV</div>
+          </div>
+          <div class="card" style="padding:24px;cursor:pointer;transition:all 0.2s" onclick="exportJSON()" onmouseenter="this.style.borderColor='var(--border-hover)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:12px">💾</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Backup JSON</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Backup seluruh data (mahasiswa + nilai) ke file JSON</div>
+          </div>
+          <div class="card" style="padding:24px;cursor:pointer;transition:all 0.2s" onclick="importJSON()" onmouseenter="this.style.borderColor='var(--border-hover)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:12px">📥</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Restore JSON</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Pulihkan data dari file JSON backup</div>
+          </div>
+          <div class="card" style="padding:24px;cursor:pointer;transition:all 0.2s" onclick="exportPrintable()" onmouseenter="this.style.borderColor='var(--border-hover)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:12px">🖨️</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Print / PDF</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Cetak rekap nilai atau simpan sebagai PDF</div>
+          </div>
+          <div class="card" style="padding:24px;cursor:pointer;transition:all 0.2s" onclick="exportGasSync()" onmouseenter="this.style.borderColor='var(--border-hover)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:12px">☁️</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Sync Google Sheets</div>
+            <div style="font-size:12px;color:var(--text-secondary)">Kirim data ke Google Spreadsheet via Apps Script API</div>
+          </div>
+        </div>
+
+        <!-- Firebase Config -->
+        <div class="card" style="margin-top:24px;border-color:rgba(251,146,60,0.3)">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🔥 Konfigurasi Firebase Realtime</div>
+              <div class="card-subtitle">Untuk sinkronisasi realtime antar semua komputer</div>
+            </div>
+            <div id="fbConfigStatus" style="font-size:12px;padding:4px 12px;border-radius:20px;background:rgba(251,146,60,0.1);color:#fb923c;border:1px solid rgba(251,146,60,0.3)">Belum dikonfigurasi</div>
+          </div>
+          <div class="card-body">
+            <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px;margin-bottom:20px;font-size:12px;line-height:2">
+              <strong style="color:var(--text-primary);display:block;margin-bottom:10px;font-size:13px">📋 Cara Setup Firebase (sekali saja, ~10 menit):</strong>
+              <div style="display:flex;flex-direction:column;gap:5px;color:var(--text-secondary)">
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">1.</span>Buka <a href="https://console.firebase.google.com" target="_blank" style="color:var(--indigo-400)">console.firebase.google.com</a> → <strong style="color:var(--text-primary)">Add Project</strong> → beri nama (mis: "edurank-ai")</div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">2.</span>Di sidebar → <strong style="color:var(--text-primary)">Realtime Database</strong> → Create Database → pilih region → <strong style="color:var(--green-400)">Start in test mode</strong></div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">3.</span>Di sidebar → <strong style="color:var(--text-primary)">Project Settings</strong> (⚙️) → Your apps → Web (&lt;/&gt;) → Register app</div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">4.</span>Copy nilai <code style="color:var(--indigo-400)">firebaseConfig</code> yang muncul (apiKey, databaseURL, dll)</div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">5.</span>Paste ke form di bawah → klik <strong style="color:var(--text-primary)">Simpan & Hubungkan</strong></div>
+                <div><span style="color:var(--yellow-400);font-weight:700;margin-right:8px">⚠️</span>Test mode aktif 30 hari. Setelah itu update Rules di Firebase Console.</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">API Key</label>
+                <input class="form-control" id="fbApiKey" placeholder="AIzaSy..." style="font-family:var(--font-mono);font-size:12px">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Database URL</label>
+                <input class="form-control" id="fbDatabaseURL" placeholder="https://project-id-default-rtdb.firebaseio.com" style="font-family:var(--font-mono);font-size:12px">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Project ID</label>
+                <input class="form-control" id="fbProjectId" placeholder="my-project-id" style="font-family:var(--font-mono);font-size:12px">
+              </div>
+              <div class="form-group">
+                <label class="form-label">App ID</label>
+                <input class="form-control" id="fbAppId" placeholder="1:123456:web:abc..." style="font-family:var(--font-mono);font-size:12px">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Auth Domain</label>
+                <input class="form-control" id="fbAuthDomain" placeholder="project-id.firebaseapp.com" style="font-family:var(--font-mono);font-size:12px">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Messaging Sender ID</label>
+                <input class="form-control" id="fbMessagingSenderId" placeholder="123456789" style="font-family:var(--font-mono);font-size:12px">
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:8px">
+              <button class="btn btn-primary" onclick="saveFbConfig()" style="flex:1">🔥 Simpan & Hubungkan Firebase</button>
+              <button class="btn btn-secondary" onclick="clearFbConfig()">🗑️ Hapus Config</button>
+            </div>
+          </div>
+        </div>
+                <!-- Cloudflare Worker Config -->
+        <div class="card" style="margin-top:24px;border-color:rgba(249,115,22,0.3)">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🌐 Cloudflare Worker — Realtime Tanpa Config</div>
+              <div class="card-subtitle">Semua komputer terhubung otomatis, tidak perlu isi apapun di komputer lain</div>
+            </div>
+            <div id="cfConfigStatus" style="font-size:12px;padding:4px 12px;border-radius:20px;background:rgba(249,115,22,0.1);color:#f97316;border:1px solid rgba(249,115,22,0.3)">Belum dikonfigurasi</div>
+          </div>
+          <div class="card-body">
+            <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px;margin-bottom:20px;font-size:12px;line-height:2">
+              <strong style="color:var(--text-primary);display:block;margin-bottom:10px;font-size:13px">📋 Cara Setup (~15 menit, sekali saja):</strong>
+              <div style="display:flex;flex-direction:column;gap:4px;color:var(--text-secondary)">
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">1.</span>Daftar gratis di <a href="https://cloudflare.com" target="_blank" style="color:var(--indigo-400)">cloudflare.com</a> → <strong style="color:var(--text-primary)">Workers & Pages → Create → Create Worker</strong></div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">2.</span>Beri nama <code style="color:var(--indigo-400)">edurank-ai</code> → <strong style="color:var(--text-primary)">Edit Code</strong> → paste isi <code style="color:var(--indigo-400)">cloudflare-worker.js</code> → <strong style="color:var(--text-primary)">Save & Deploy</strong></div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">3.</span><strong style="color:var(--text-primary)">Workers & Pages → KV → Create namespace</strong> → nama: <code style="color:var(--indigo-400)">EDURANK_KV</code></div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">4.</span>Worker → <strong style="color:var(--text-primary)">Settings → Variables → KV Namespace Bindings → Add</strong> → Variable: <code style="color:var(--indigo-400)">KV</code>, Namespace: <code style="color:var(--indigo-400)">EDURANK_KV</code> → Save</div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">5.</span>Copy URL Worker → paste di bawah → klik <strong style="color:var(--text-primary)">Simpan & Aktifkan</strong></div>
+                <div><span style="color:var(--indigo-400);font-weight:700;margin-right:8px">6.</span>Upload <code style="color:var(--indigo-400)">index.html</code> baru ke GitHub → selesai!</div>
+                <div><span style="color:var(--green-400);font-weight:700;margin-right:8px">✓</span>Komputer lain <strong style="color:var(--text-primary)">tidak perlu setting apapun</strong> — buka URL langsung terhubung</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">URL Cloudflare Worker</label>
+              <div style="display:flex;gap:8px">
+                <input type="text" class="form-control" id="cfWorkerUrl" placeholder="https://edurank-ai.USERNAME.workers.dev" style="font-family:var(--font-mono);font-size:12px;flex:1">
+                <button class="btn btn-secondary" onclick="testCfWorker()" style="white-space:nowrap">🔌 Test</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button class="btn btn-primary" onclick="saveCfWorkerUrl()" style="flex:1">🌐 Simpan & Aktifkan Realtime</button>
+              <button class="btn btn-secondary" onclick="clearCfWorkerUrl()">✕ Hapus</button>
+            </div>
+            <div style="font-size:11px;color:var(--yellow-400);margin-top:10px;padding:8px 12px;background:rgba(250,204,21,0.06);border-radius:var(--radius-sm);border:1px solid rgba(250,204,21,0.15)">
+              ⚠️ Setelah Simpan, <strong>upload ulang index.html ke GitHub</strong> agar URL tertanam di kode dan komputer lain tidak perlu setting.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:24px">
+          <div class="card-header"><div class="card-title">⚙️ Konfigurasi Google Apps Script</div></div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">URL Google Apps Script (Web App Deployment)</label>
+              <div style="display:flex;gap:8px">
+                <input type="text" class="form-control" id="gasUrl" placeholder="https://script.google.com/macros/s/AKfy.../exec" style="font-family:var(--font-mono);font-size:12px;flex:1">
+                <button class="btn btn-secondary" onclick="pingGas()" style="white-space:nowrap">🔌 Test</button>
+              </div>
+              <div style="font-size:11px;color:var(--text-secondary);margin-top:6px">URL harus diakhiri <code style="color:var(--indigo-400)">/exec</code> — bukan <code style="opacity:0.5">/dev</code></div>
+            </div>
+
+            <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;font-size:12px;line-height:1.9">
+              <strong style="color:var(--text-primary);display:block;margin-bottom:8px">📋 Cara Setup (ikuti urutan ini):</strong>
+              <div style="display:flex;flex-direction:column;gap:4px;color:var(--text-secondary)">
+                <div><span style="color:var(--indigo-400);font-weight:700">1.</span> Buka Google Sheets baru → <strong style="color:var(--text-primary)">Extensions → Apps Script</strong></div>
+                <div><span style="color:var(--indigo-400);font-weight:700">2.</span> Hapus semua kode default, paste isi file <code style="color:var(--indigo-400)">gas-backend.gs</code></div>
+                <div><span style="color:var(--indigo-400);font-weight:700">3.</span> Klik <strong style="color:var(--text-primary)">Run → setup()</strong> — izinkan akses saat diminta</div>
+                <div><span style="color:var(--indigo-400);font-weight:700">4.</span> <strong style="color:var(--text-primary)">Deploy → New Deployment → Web App</strong></div>
+                <div style="padding-left:16px;color:var(--text-muted)">Execute as: <strong style="color:var(--text-primary)">Me</strong> &nbsp;|&nbsp; Who has access: <strong style="color:var(--green-400)">Anyone</strong></div>
+                <div><span style="color:var(--indigo-400);font-weight:700">5.</span> Copy URL deployment (akhiran <code style="color:var(--indigo-400)">/exec</code>) → paste di atas</div>
+                <div><span style="color:var(--indigo-400);font-weight:700">6.</span> Klik <strong style="color:var(--text-primary)">🔌 Test</strong> dulu — pastikan muncul ✅ sebelum sync</div>
+                <div><span style="color:var(--yellow-400);font-weight:700">⚠️</span> Setiap edit kode GAS → wajib <strong style="color:var(--text-primary)">Deploy ulang</strong> (bukan pakai deployment lama)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="handleImportJSON(event)">
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ======================================================
+// DATA STORE
+// ======================================================
+const STORAGE_KEY = 'edurank_data_v2';
+const JUMLAH_PERTEMUAN = 14;
+
+let state = {
+  mahasiswa: [],
+  nilai: [],   // { nim, pertemuan, sikap, kuis, tugas, kehadiran }
+  ujian: [],   // { nim, uts, uas }  ← BARU
+};
+
+// ======================================================
+// DEFAULT DATA — Treasury-4 (22) + Treasury-5 (21)
+// ======================================================
+const DEFAULT_MAHASISWA = [
+  // Treasury-4
+  { nim: '4121230011', nama: 'ANANDA MITA MAHARANI',           kelas: 'Treasury-4' },
+  { nim: '4121230209', nama: 'ARKANA AZHAR NUGROHO',           kelas: 'Treasury-4' },
+  { nim: '4121230117', nama: 'ATHAYA TSANY SURYA PUTRI',       kelas: 'Treasury-4' },
+  { nim: '4121230060', nama: 'AZZAH LUTFIYATUL KHONSA',        kelas: 'Treasury-4' },
+  { nim: '4121230419', nama: 'CLAUDYA BHAYANGKARA BANOET',     kelas: 'Treasury-4' },
+  { nim: '4121230039', nama: 'DJAKO WAHYA SAMPURNA',           kelas: 'Treasury-4' },
+  { nim: '4121230103', nama: 'FATH SANIA SALMAA PUTERI',       kelas: 'Treasury-4' },
+  { nim: '4121230076', nama: 'GRACIA WAHYU ANJANI',            kelas: 'Treasury-4' },
+  { nim: '4121230344', nama: 'GUSTI FALIH DEANDA TARIGAN',     kelas: 'Treasury-4' },
+  { nim: '4121230301', nama: 'M. DAFFA FAHADA LUBIS',          kelas: 'Treasury-4' },
+  { nim: '4121230402', nama: 'MARTA DEBORA SAGALA',            kelas: 'Treasury-4' },
+  { nim: '4121230304', nama: 'MUHAMMAD AKBAR MAULANA',         kelas: 'Treasury-4' },
+  { nim: '4121230286', nama: 'MUHAMMAD NANDA RAKHA PRADANA',   kelas: 'Treasury-4' },
+  { nim: '4121230126', nama: 'NAU FARA KURNIA TILLAH',         kelas: 'Treasury-4' },
+  { nim: '4121230315', nama: 'NI WAYAN PUTRI RATNA DEWATI',    kelas: 'Treasury-4' },
+  { nim: '4121230030', nama: 'OLSYEN AKBAR PRAMUDYA ANANDA',   kelas: 'Treasury-4' },
+  { nim: '4121230043', nama: 'SAGUH SAVERO ZAKI',              kelas: 'Treasury-4' },
+  { nim: '4121230225', nama: 'SALSABILA PUTRI PURNAMA',        kelas: 'Treasury-4' },
+  { nim: '4121230291', nama: 'SITA AGNISTULLAH',               kelas: 'Treasury-4' },
+  { nim: '4121230185', nama: 'TESALONIKA PAULINA PUTRI SIGIRO',kelas: 'Treasury-4' },
+  { nim: '4121230357', nama: 'YUNI FAKHIRA',                   kelas: 'Treasury-4' },
+  { nim: '4121230263', nama: 'ZAKI RAMADHAN EFENDY',           kelas: 'Treasury-4' },
+  // Treasury-5
+  { nim: '4121230243', nama: 'ANDRIANI ENDAH WAHYUNINGTYAS',   kelas: 'Treasury-5' },
+  { nim: '4121230037', nama: 'AULIA HABIBAH',                  kelas: 'Treasury-5' },
+  { nim: '4121230346', nama: 'AXL JOSSUA HALASSON HUTABARAT',  kelas: 'Treasury-5' },
+  { nim: '4121230122', nama: 'AZZAHRA HASNA NIDA',             kelas: 'Treasury-5' },
+  { nim: '4121230339', nama: 'DEBORA LAURENSIA SIHOTANG',      kelas: 'Treasury-5' },
+  { nim: '4121230332', nama: 'EXAL RAY SITOMPUL',              kelas: 'Treasury-5' },
+  { nim: '4121230325', nama: 'FAZILA GHANIA',                  kelas: 'Treasury-5' },
+  { nim: '4121230396', nama: 'JAQLINE MARLENA BENU',           kelas: 'Treasury-5' },
+  { nim: '4121230260', nama: 'JUAN DENIRO TAMBUN',             kelas: 'Treasury-5' },
+  { nim: '4121230392', nama: 'MHD AIDIL HASHFI NASUTION',      kelas: 'Treasury-5' },
+  { nim: '4121230017', nama: 'MUHAMMAD ALVITO NAJWAAN',        kelas: 'Treasury-5' },
+  { nim: '4121230129', nama: 'MUHAMMAD RIZQI PRATAMA',         kelas: 'Treasury-5' },
+  { nim: '4121230127', nama: 'NAJWA MEIRISCHA GITA CAHYANI',   kelas: 'Treasury-5' },
+  { nim: '4121230135', nama: 'NAWANG WULAN',                   kelas: 'Treasury-5' },
+  { nim: '4121230372', nama: 'OLYVIA HUTAHAEAN',               kelas: 'Treasury-5' },
+  { nim: '4121230376', nama: 'RICK EDWARD PURBA',              kelas: 'Treasury-5' },
+  { nim: '4121230274', nama: 'SARAH PATRICIA SIMATUPANG',      kelas: 'Treasury-5' },
+  { nim: '4121230009', nama: 'SATRIO DWI DAMARA',              kelas: 'Treasury-5' },
+  { nim: '4121230308', nama: 'SITI HAJAR SUWARDY',             kelas: 'Treasury-5' },
+  { nim: '4121230137', nama: 'VIRA YUNITA MULYONO',            kelas: 'Treasury-5' },
+  { nim: '4121230200', nama: 'ZIAN NUR IMAMAH FARID',          kelas: 'Treasury-5' },
+];
+
+// Active class filter — 'Semua', 'Treasury-4', 'Treasury-5'
+let activeKelas = 'Semua';
+
+function getMhsByKelas() {
+  if (activeKelas === 'Semua') return state.mahasiswa;
+  return state.mahasiswa.filter(m => m.kelas === activeKelas);
+}
+
+// ======================================================
+// FIREBASE CONFIG
+// Isi dengan config dari Firebase Console project Anda
+// ======================================================
+const FIREBASE_CONFIG = {
+  apiKey:            '',
+  authDomain:        '',
+  databaseURL:       '',
+  projectId:         '',
+  storageBucket:     '',
+  messagingSenderId: '',
+  appId:             '',
+};
+
+// Firebase DB paths
+const DB_PATH = 'edurank';
+
+// Firebase state
+let db = null;
+let fbInitialized = false;
+let fbListeners = {};        // active listeners to detach on re-init
+let saveDebounceTimer = null; // debounce rapid saves
+
+// ── Firebase connection status UI ──────────────────────
+function setFbStatus(status, msg) {
+  // status: 'connecting' | 'online' | 'offline' | 'local'
+  const colors = { connecting:'#f59e0b', online:'#22c55e', offline:'#ef4444', local:'#8892b0' };
+  const icons  = { connecting:'⟳', online:'☁', offline:'✗', local:'💾' };
+  const bar = document.getElementById('fbStatusBar');
+  const dot = document.getElementById('fbStatusDot');
+  const lbl = document.getElementById('fbStatusLabel');
+  if (!bar) return;
+  bar.style.display = 'flex';
+  if (dot)  { dot.style.background = colors[status]; dot.textContent = icons[status]; }
+  if (lbl)  lbl.textContent = msg;
+}
+
+// ======================================================
+// FIREBASE INIT
+// ======================================================
+function initFirebase() {
+  // Load saved config from localStorage
+  const savedCfg = loadFbConfig();
+  if (savedCfg) Object.assign(FIREBASE_CONFIG, savedCfg);
+
+  // Check if config is filled
+  if (!FIREBASE_CONFIG.databaseURL) {
+    console.log('Firebase not configured — using localStorage');
+    setFbStatus('connecting', 'Menghubungkan ke Cloudflare Worker...');
+    return;
+  }
+
+  try {
+    setFbStatus('connecting', 'Menghubungkan ke Firebase...');
+
+    // Load Firebase SDK dynamically
+    const script1 = document.createElement('script');
+    script1.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js';
+    script1.onload = () => {
+      const script2 = document.createElement('script');
+      script2.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js';
+      script2.onload = () => connectFirebase();
+      document.head.appendChild(script2);
+    };
+    document.head.appendChild(script1);
+  } catch(e) {
+    console.error('Firebase init error:', e);
+    loadStateLocal();
+    setFbStatus('local', 'Gagal load Firebase SDK');
+  }
+}
+
+function connectFirebase() {
+  try {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(FIREBASE_CONFIG);
+    }
+    db = firebase.database();
+    fbInitialized = true;
+
+    // Monitor connection state
+    const connRef = db.ref('.info/connected');
+    connRef.on('value', snap => {
+      if (snap.val()) {
+        setFbStatus('online', 'Realtime — tersinkron');
+      } else {
+        setFbStatus('offline', 'Offline — perubahan tersimpan lokal');
+      }
+    });
+
+    // Start realtime listeners
+    attachFirebaseListeners();
+
+  } catch(e) {
+    console.error('connectFirebase error:', e);
+    loadStateLocal();
+    setFbStatus('local', 'Firebase error: ' + e.message);
+  }
+}
+
+// ======================================================
+// REALTIME LISTENERS — setiap perubahan di Firebase
+// langsung update semua browser yang terbuka
+// ======================================================
+function attachFirebaseListeners() {
+  if (!db) return;
+
+  // Detach existing listeners first
+  Object.values(fbListeners).forEach(ref => ref.off && ref.off());
+  fbListeners = {};
+
+  showSpinner(true);
+
+  // Listen to mahasiswa
+  fbListeners.mahasiswa = db.ref(`${DB_PATH}/mahasiswa`);
+  fbListeners.mahasiswa.on('value', snap => {
+    const val = snap.val();
+    state.mahasiswa = val ? Object.values(val) : DEFAULT_MAHASISWA;
+    if (!state.mahasiswa.length) state.mahasiswa = DEFAULT_MAHASISWA;
+    onFirebaseUpdate();
+  });
+
+  // Listen to nilai
+  fbListeners.nilai = db.ref(`${DB_PATH}/nilai`);
+  fbListeners.nilai.on('value', snap => {
+    const val = snap.val();
+    state.nilai = val ? Object.values(val) : [];
+    onFirebaseUpdate();
+  });
+
+  // Listen to ujian
+  fbListeners.ujian = db.ref(`${DB_PATH}/ujian`);
+  fbListeners.ujian.on('value', snap => {
+    const val = snap.val();
+    state.ujian = val ? Object.values(val) : [];
+    onFirebaseUpdate();
+  });
+
+  // First load done after brief timeout
+  setTimeout(() => showSpinner(false), 800);
+}
+
+let updatePending = false;
+function onFirebaseUpdate() {
+  // Debounce rapid simultaneous updates from multiple paths
+  if (updatePending) return;
+  updatePending = true;
+  setTimeout(() => {
+    updatePending = false;
+    saveStateLocal(); // mirror to localStorage as offline cache
+    refreshNavBadge();
+    renderPage(currentPage);
+  }, 80);
+}
+
+// ======================================================
+// SAVE TO FIREBASE
+// ======================================================
+function saveState() {
+  saveStateLocal(); // always save locally first (instant)
+  if (!fbInitialized || !db) return;
+
+  // Debounce — avoid hammering Firebase on every keystroke
+  clearTimeout(saveDebounceTimer);
+  saveDebounceTimer = setTimeout(() => pushToFirebase(), 400);
+}
+
+function pushToFirebase() {
+  if (!db) return;
+
+  // Convert arrays to objects keyed by NIM (Firebase prefers objects over arrays)
+  const mhsObj   = {};
+  const nilaiObj  = {};
+  const ujianObj  = {};
+
+  state.mahasiswa.forEach(m => { mhsObj[m.nim] = m; });
+  state.nilai.forEach(n     => { nilaiObj[`${n.nim}_P${n.pertemuan}`] = n; });
+  state.ujian.forEach(u     => { ujianObj[u.nim] = u; });
+
+  db.ref(DB_PATH).set({
+    mahasiswa: mhsObj,
+    nilai:     nilaiObj,
+    ujian:     ujianObj,
+    lastUpdated: Date.now(),
+  }).catch(err => {
+    console.error('Firebase write error:', err);
+    showToast('Gagal simpan ke Firebase: ' + err.message, 'error');
+  });
+}
+
+// ======================================================
+// LOCAL STORAGE (fallback / offline cache)
+// ======================================================
+function loadStateLocal() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      state = JSON.parse(saved);
+      if (!state.mahasiswa || !state.mahasiswa.length) state.mahasiswa = DEFAULT_MAHASISWA;
+      if (!state.ujian) state.ujian = [];
+    } else {
+      state.mahasiswa = DEFAULT_MAHASISWA;
+      state.nilai = [];
+      state.ujian = [];
+      saveStateLocal();
+    }
+  } catch(e) {
+    state.mahasiswa = DEFAULT_MAHASISWA;
+    state.nilai     = [];
+    state.ujian     = [];
+  }
+}
+
+function saveStateLocal() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+// ======================================================
+// CALCULATIONS
+// ======================================================
+function calcNilaiMhs(nim) {
+  const nilaiMhs = state.nilai.filter(n => n.nim === nim);
+  const ujianMhs = state.ujian.find(u => u.nim === nim);
+
+  // Nilai Aktivitas (40% dari nilai akhir):
+  // HDR = 8%  → bobot dalam aktivitas: 0.20
+  // SKP = 8%  → bobot dalam aktivitas: 0.20
+  // RT  = 12% → bobot dalam aktivitas: 0.30
+  // TGS = 12% → bobot dalam aktivitas: 0.30
+  let nilaiAktivitas = null;
+  let avgHDR = 0, avgSKP = 0, avgRT = 0, avgTGS = 0;
+  if (nilaiMhs.length > 0) {
+    avgHDR = avg(nilaiMhs.map(n => +n.hdr));
+    avgSKP = avg(nilaiMhs.map(n => +n.skp));
+    avgRT  = avg(nilaiMhs.map(n => +n.rt));
+    avgTGS = avg(nilaiMhs.map(n => +n.tgs));
+    nilaiAktivitas = (avgHDR * 0.20) + (avgSKP * 0.20) + (avgRT * 0.30) + (avgTGS * 0.30);
+  }
+
+  const uts = ujianMhs && ujianMhs.uts !== '' && ujianMhs.uts !== null && ujianMhs.uts !== undefined ? +ujianMhs.uts : null;
+  const uas = ujianMhs && ujianMhs.uas !== '' && ujianMhs.uas !== null && ujianMhs.uas !== undefined ? +ujianMhs.uas : null;
+
+  if (nilaiMhs.length === 0 && !ujianMhs) return null;
+
+  // ── Nilai Akhir Sementara ──
+  // Hitung dari komponen yang sudah ada, bobot dikumulatifkan
+  // Contoh: baru ada aktivitas → nilai sementara = aktivitas × 40%
+  // Aktivitas + UTS → (aktivitas×40% + UTS×30%) / 70% → dinormalisasi ke 100
+  // Semua ada → nilai akhir penuh
+  let nilaiAkhir = null;
+  let isSementara = false;
+  let komponenAda = 0;
+  let bobotTotal  = 0;
+  let nilaiTertimbang = 0;
+
+  if (nilaiAktivitas !== null) { nilaiTertimbang += nilaiAktivitas * 0.40; bobotTotal += 0.40; komponenAda++; }
+  if (uts !== null)            { nilaiTertimbang += uts * 0.30;            bobotTotal += 0.30; komponenAda++; }
+  if (uas !== null)            { nilaiTertimbang += uas * 0.30;            bobotTotal += 0.30; komponenAda++; }
+
+  if (bobotTotal > 0) {
+    if (bobotTotal >= 1.0) {
+      // Semua komponen ada → nilai akhir resmi
+      nilaiAkhir   = nilaiTertimbang;
+      isSementara  = false;
+    } else {
+      // Sebagian komponen ada → nilai sementara (dinormalisasi ke bobot yg sudah ada)
+      nilaiAkhir   = nilaiTertimbang / bobotTotal;
+      isSementara  = true;
+    }
+    nilaiAkhir = round2(nilaiAkhir);
+  }
+
+  return {
+    avgHDR:         round2(avgHDR),
+    avgSKP:         round2(avgSKP),
+    avgRT:          round2(avgRT),
+    avgTGS:         round2(avgTGS),
+    nilaiAktivitas: nilaiAktivitas !== null ? round2(nilaiAktivitas) : null,
+    uts,
+    uas,
+    nilaiAkhir,
+    isSementara,   // ← true jika belum semua komponen terisi
+    komponenAda,   // ← berapa komponen yang sudah ada (maks 3)
+    predikat:      nilaiAkhir !== null ? getPredikat(nilaiAkhir) : '—',
+    lulus:         nilaiAkhir !== null ? nilaiAkhir >= 55 : false,
+    pertemuanDiisi: nilaiMhs.length,
+  };
+}
+
+function getPredikat(val) {
+  if (val >= 85) return 'A';
+  if (val >= 70) return 'B';
+  if (val >= 55) return 'C';
+  if (val >= 40) return 'D';
+  return 'E';
+}
+
+function avg(arr) {
+  if (!arr.length) return 0;
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
+}
+
+function round2(v) { return Math.round(v * 100) / 100; }
+
+function getMhsWithNilai(kelasList) {
+  const list = kelasList || getMhsByKelas();
+  return list.map(m => {
+    const n = calcNilaiMhs(m.nim);
+    return { ...m, ...n, hasNilai: !!n };
+  }).sort((a, b) => (b.nilaiAkhir || 0) - (a.nilaiAkhir || 0))
+    .map((m, i) => ({ ...m, rank: i + 1 }));
+}
+
+// ======================================================
+// NAVIGATION
+// ======================================================
+let currentPage = 'dashboard';
+const pageTitles = {
+  dashboard: 'Dashboard', mahasiswa: 'Data Mahasiswa', input: 'Input Nilai',
+  'rekap-individu': 'Rekap Individu', 'rekap-kelas': 'Rekap Kelas',
+  ranking: 'Ranking', analytics: 'Analytics', export: 'Export Data',
+};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelector(`[data-page="${id}"]`).classList.add('active');
+  document.getElementById('topbarTitle').textContent = pageTitles[id];
+  document.getElementById('topbarBreadcrumb').textContent = `EduRank AI / ${pageTitles[id]}`;
+  currentPage = id;
+  renderPage(id);
+  // mobile
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+function renderPage(id) {
+  if (id === 'dashboard') renderDashboard();
+  else if (id === 'mahasiswa') renderMahasiswaTable();
+  else if (id === 'input') initInputPage();
+  else if (id === 'rekap-individu') initRekapIndividuPage();
+  else if (id === 'rekap-kelas') renderRekapKelas();
+  else if (id === 'ranking') renderRanking();
+  else if (id === 'analytics') renderAnalytics();
+  else if (id === 'export') { setTimeout(populateFbForm, 50); setTimeout(initGasUrlPersist, 60); setTimeout(initCfWorkerForm, 70); }
+}
+
+// ======================================================
+// DASHBOARD
+// ======================================================
+let dashCharts = {};
+function renderDashboard() {
+  const mhsList = getMhsWithNilai(getMhsByKelas());
+  const hasnilai = mhsList.filter(m => m.hasNilai);
+  const lulus = hasnilai.filter(m => m.lulus);
+  const tidakLulus = hasnilai.filter(m => !m.lulus);
+  const nilaiAkhirArr = hasnilai.map(m => m.nilaiAkhir);
+  const rataKelas = hasnilai.length ? round2(avg(nilaiAkhirArr)) : 0;
+  const tertinggi = hasnilai.length ? Math.max(...nilaiAkhirArr) : 0;
+  const terendah = hasnilai.length ? Math.min(...nilaiAkhirArr) : 0;
+
+  const stats = [
+    { icon:'👥', label:'Total Mahasiswa', value: state.mahasiswa.length, sub:'Terdaftar', color:'indigo' },
+    { icon:'📊', label:'Rata-rata Kelas', value: hasnilai.filter(m=>m.nilaiAkhir!==null).length ? round2(avg(hasnilai.filter(m=>m.nilaiAkhir!==null).map(m=>m.nilaiAkhir))) : '—', sub:'Nilai Akhir', color:'blue' },
+    { icon:'⬆️', label:'Nilai Tertinggi', value: hasnilai.filter(m=>m.nilaiAkhir!==null).length ? Math.max(...hasnilai.filter(m=>m.nilaiAkhir!==null).map(m=>m.nilaiAkhir)) : '—', sub: hasnilai.filter(m=>m.nilaiAkhir!==null)[0]?.nama?.split(' ')[0] || '—', color:'green' },
+    { icon:'⬇️', label:'Nilai Terendah', value: hasnilai.filter(m=>m.nilaiAkhir!==null).length ? Math.min(...hasnilai.filter(m=>m.nilaiAkhir!==null).map(m=>m.nilaiAkhir)) : '—', sub:'—', color:'orange' },
+    { icon:'📝', label:'Input Aktivitas', value: state.nilai.length, sub:`dari ${state.mahasiswa.length * 14} entri`, color:'violet' },
+    { icon:'📋', label:'Input UTS', value: state.ujian.filter(u=>u.uts!==null&&u.uts!=='').length, sub:`dari ${state.mahasiswa.length} mahasiswa`, color:'cyan' },
+    { icon:'📋', label:'Input UAS', value: state.ujian.filter(u=>u.uas!==null&&u.uas!=='').length, sub:`dari ${state.mahasiswa.length} mahasiswa`, color:'rose' },
+    { icon:'📅', label:'Progress Aktivitas', value: `${Math.round(state.nilai.length/(state.mahasiswa.length*14)*100)||0}%`, sub:'Pertemuan terisi', color:'indigo' },
+  ];
+
+  const sgEl = document.getElementById('dashboardStats');
+  sgEl.innerHTML = stats.map(s => `
+    <div class="stat-card ${s.color}">
+      <div class="stat-icon">${s.icon}</div>
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-value">${s.value}</div>
+      <div class="stat-sub">${s.sub}</div>
+    </div>`).join('');
+
+  // top 5 table
+  const top5 = mhsList.filter(m => m.hasNilai).slice(0, 5);
+  document.getElementById('dashTopBody').innerHTML = top5.map((m, i) => `
+    <tr>
+      <td><span class="rank-number rank-${i+1}">#${i+1}</span></td>
+      <td><strong>${m.nama}</strong><div style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono)">${m.nim}</div></td>
+      <td><strong style="font-size:16px">${m.nilaiAkhir}</strong></td>
+      <td><span class="badge badge-${m.predikat}">${m.predikat}</span></td>
+      <td style="width:120px"><div class="progress-bar"><div class="progress-fill" style="width:${m.nilaiAkhir}%;background:${getScoreColor(m.nilaiAkhir)}"></div></div></td>
+    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:30px">Belum ada data nilai</td></tr>';
+
+  // performers
+  const mostImproved = calcMostImproved();
+  const attendLeader = hasnilai.sort((a,b)=>b.avgKehadiran-a.avgKehadiran)[0];
+  const topPerf = hasnilai.sort((a,b)=>b.nilaiAkhir-a.nilaiAkhir)[0];
+
+  document.getElementById('topPerformerBody').innerHTML = topPerf ? performerCard(topPerf.nama, `Nilai Akhir: ${topPerf.nilaiAkhir}`, '🥇') : '<div style="color:var(--text-muted);font-size:13px">Belum ada data</div>';
+  document.getElementById('mostImprovedBody').innerHTML = mostImproved ? performerCard(mostImproved.nama, `Peningkatan: +${mostImproved.improvement}`, '📈') : '<div style="color:var(--text-muted);font-size:13px">Perlu ≥3 pertemuan</div>';
+  document.getElementById('attendanceLeaderBody').innerHTML = attendLeader ? performerCard(attendLeader.nama, `Rata Kehadiran: ${attendLeader.avgKehadiran}`, '✅') : '<div style="color:var(--text-muted);font-size:13px">Belum ada data</div>';
+
+  // charts
+  renderDashCharts(hasnilai);
+}
+
+function performerCard(nama, sub, icon) {
+  return `<div style="display:flex;align-items:center;gap:12px">
+    <div style="font-size:28px">${icon}</div>
+    <div><div style="font-weight:700;font-size:13px">${nama}</div><div style="font-size:11px;color:var(--text-secondary)">${sub}</div></div>
+  </div>`;
+}
+
+function calcMostImproved() {
+  let best = null;
+  state.mahasiswa.forEach(m => {
+    const nilaiMhs = state.nilai.filter(n => n.nim === m.nim).sort((a,b)=>a.pertemuan-b.pertemuan);
+    if (nilaiMhs.length < 3) return;
+    const first = nilaiMhs.slice(0, Math.ceil(nilaiMhs.length/2));
+    const last = nilaiMhs.slice(Math.ceil(nilaiMhs.length/2));
+    const avgFirst = avg(first.map(n => calcPertemuanScore(n)));
+    const avgLast = avg(last.map(n => calcPertemuanScore(n)));
+    const improvement = round2(avgLast - avgFirst);
+    if (!best || improvement > best.improvement) best = { ...m, improvement };
+  });
+  return best;
+}
+
+function calcPertemuanScore(n) {
+  return (+n.hdr * 0.20) + (+n.skp * 0.20) + (+n.rt * 0.30) + (+n.tgs * 0.30);
+}
+
+// Chart color helpers — theme-aware
+function getTickColor()  { return currentTheme === 'light' ? '#475569' : '#8892b0'; }
+function getGridColor()  { return currentTheme === 'light' ? 'rgba(99,102,241,0.08)' : 'rgba(255,255,255,0.05)'; }
+function getLegendColor(){ return currentTheme === 'light' ? '#374151' : '#8892b0'; }
+
+function renderDashCharts(hasnilai) {
+  // distribusi predikat
+  const predCount = {A:0,B:0,C:0,D:0,E:0};
+  hasnilai.forEach(m => predCount[m.predikat]++);
+
+  destroyChart('chartDistribusi');
+  const ctx1 = document.getElementById('chartDistribusi');
+  if (ctx1) {
+    dashCharts.distribusi = new Chart(ctx1, {
+      type: 'doughnut',
+      data: {
+        labels: Object.keys(predCount),
+        datasets: [{ data: Object.values(predCount), backgroundColor: ['#22c55e','#6366f1','#facc15','#fb923c','#ef4444'], borderWidth: 0, hoverOffset: 6 }]
+      },
+      options: { responsive:true, maintainAspectRatio:false, plugins: { legend: { position:'right', labels: { color:getTickColor(), font:{size:12} } } } }
+    });
+  }
+
+  // komponen
+  const avgArr = hasnilai.length ? {
+    HDR: round2(avg(hasnilai.map(m=>m.avgHDR))),
+    SKP: round2(avg(hasnilai.map(m=>m.avgSKP))),
+    RT:  round2(avg(hasnilai.map(m=>m.avgRT))),
+    TGS: round2(avg(hasnilai.map(m=>m.avgTGS))),
+  } : {HDR:0,SKP:0,RT:0,TGS:0};
+
+  destroyChart('chartKomponen');
+  const ctx2 = document.getElementById('chartKomponen');
+  if (ctx2) {
+    dashCharts.komponen = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(avgArr),
+        datasets: [{ data: Object.values(avgArr), backgroundColor: ['rgba(99,102,241,0.7)','rgba(59,130,246,0.7)','rgba(139,92,246,0.7)','rgba(34,197,94,0.7)'], borderRadius: 6, borderWidth: 0 }]
+      },
+      options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales: { y: { min:0, max:100, grid:{color:getGridColor()}, ticks:{color:getTickColor()} }, x: { grid:{display:false}, ticks:{color:getTickColor()} } } }
+    });
+  }
+}
+
+const chartInstances = {};
+function destroyChart(id) {
+  if (chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; }
+  // Also destroy any existing chart on canvas
+  const existing = Chart.getChart(id);
+  if (existing) existing.destroy();
+}
+
+// ======================================================
+// MAHASISWA TABLE
+// ======================================================
+let mhsSortCol = 'rank', mhsSortDir = 1, mhsFilterPred = '';
+
+function renderMahasiswaTable() {
+  const q = document.getElementById('searchMhs').value.toLowerCase();
+  let list = getMhsWithNilai(getMhsByKelas());
+
+  if (q) list = list.filter(m => m.nama.toLowerCase().includes(q) || m.nim.includes(q));
+  if (mhsFilterPred) list = list.filter(m => m.predikat === mhsFilterPred);
+
+  list.sort((a,b) => {
+    let av = a[mhsSortCol] ?? 0, bv = b[mhsSortCol] ?? 0;
+    if (typeof av === 'string') av = av.toLowerCase(), bv = bv.toLowerCase();
+    return (av < bv ? -1 : av > bv ? 1 : 0) * mhsSortDir;
+  });
+
+  refreshNavBadge();
+
+  const tbody = document.getElementById('mahasiswaTableBody');
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-title">Tidak ditemukan</div><div class="empty-desc">Coba kata kunci lain</div></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map(m => {
+    const na   = m.nilaiAkhir !== null && m.nilaiAkhir !== undefined
+                   ? `${m.nilaiAkhir}`
+                   : '—';
+    const naColor = m.nilaiAkhir !== null && m.nilaiAkhir !== undefined ? getScoreColor(m.nilaiAkhir) : 'var(--text-muted)';
+    const pred = m.predikat || '—';
+    const kelasBadge = `<span style="font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg-active);border:1px solid var(--border);color:var(--indigo-400);font-family:var(--font-mono)">${m.kelas||'—'}</span>`;
+    // Only show Lulus/Tidak Lulus when nilai is final (all 3 components filled)
+
+    // Progress: (pertemuan diisi / 14) * 60% + UTS ada * 20% + UAS ada * 20%
+    const ujianMhs = state.ujian.find(u => u.nim === m.nim);
+    const hasUTS = ujianMhs && ujianMhs.uts !== null && ujianMhs.uts !== '';
+    const hasUAS = ujianMhs && ujianMhs.uas !== null && ujianMhs.uas !== '';
+    const pertPct = Math.round((m.pertemuanDiisi || 0) / 14 * 60);
+    const utsPct  = hasUTS ? 20 : 0;
+    const uasPct  = hasUAS ? 20 : 0;
+    const totalPct = pertPct + utsPct + uasPct;
+    const prog = `<div style="display:flex;flex-direction:column;gap:3px;min-width:120px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:${totalPct}%;background:${getScoreColor(totalPct)}"></div></div>
+        <span style="font-size:10px;color:var(--text-secondary);white-space:nowrap">${totalPct}%</span>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted)">P:${m.pertemuanDiisi||0}/14 ${hasUTS?'✓UTS':'·UTS'} ${hasUAS?'✓UAS':'·UAS'}</div>
+    </div>`;
+    return `
+      <tr>
+        <td><span class="rank-number ${m.rank<=3?'rank-'+m.rank:''}">#${m.rank}</span></td>
+        <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">${m.nim}</code></td>
+        <td><strong>${m.nama}</strong></td>
+        <td>${kelasBadge}</td>
+        <td><strong style="font-size:15px;color:${naColor}">${na}</strong></td>
+        <td>${m.hasNilai ? `<span class="badge badge-${pred}">${pred}</span>` : '—'}</td>
+        <td>${prog}</td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-secondary btn-xs" onclick="openEditMahasiswaModal('${m.nim}')">✏️</button>
+          <button class="btn btn-secondary btn-xs" onclick="showPage('rekap-individu');document.getElementById('selectRekapMhs').value='${m.nim}';renderRekapIndividu()" style="margin-left:4px">👤</button>
+          <button class="btn btn-danger btn-xs" onclick="deleteMahasiswa('${m.nim}')" style="margin-left:4px">🗑️</button>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function getScoreColor(v) {
+  if (!v) return 'var(--text-muted)';
+  if (v >= 85) return '#22c55e';
+  if (v >= 70) return '#6366f1';
+  if (v >= 55) return '#facc15';
+  if (v >= 40) return '#fb923c';
+  return '#ef4444';
+}
+
+// Sort headers
+document.querySelectorAll('th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (mhsSortCol === col) mhsSortDir *= -1;
+    else { mhsSortCol = col; mhsSortDir = 1; }
+    document.querySelectorAll('th.sortable').forEach(t => {
+      t.classList.remove('asc','desc');
+      t.querySelector('span').textContent = '↕';
+    });
+    th.classList.add(mhsSortDir === 1 ? 'asc' : 'desc');
+    th.querySelector('span').textContent = mhsSortDir === 1 ? '↑' : '↓';
+    renderMahasiswaTable();
+  });
+});
+
+// Filter chips
+document.getElementById('filterPredikat').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('#filterPredikat .chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  mhsFilterPred = chip.dataset.val;
+  renderMahasiswaTable();
+});
+
+// ======================================================
+// MAHASISWA CRUD
+// ======================================================
+function openAddMahasiswaModal() {
+  openModal('Tambah Mahasiswa', `
+    <div class="form-group"><label class="form-label">NIM</label><input class="form-control" id="mNim" placeholder="4121230XXX" maxlength="20"></div>
+    <div class="form-group"><label class="form-label">Nama Mahasiswa</label><input class="form-control" id="mNama" placeholder="Nama lengkap (kapital)" style="text-transform:uppercase"></div>
+    <div class="form-group"><label class="form-label">Kelas</label>
+      <select class="form-control" id="mKelas">
+        <option value="Treasury-4">Treasury-4</option>
+        <option value="Treasury-5">Treasury-5</option>
+      </select>
+    </div>
+  `, () => {
+    const nim = document.getElementById('mNim').value.trim();
+    const nama = document.getElementById('mNama').value.trim().toUpperCase();
+    const kelas = document.getElementById('mKelas').value;
+    if (!nim || !nama) return showToast('NIM dan Nama wajib diisi', 'error');
+    if (state.mahasiswa.find(m => m.nim === nim)) return showToast('NIM sudah terdaftar', 'error');
+    state.mahasiswa.push({ nim, nama, kelas });
+    saveState();
+    closeModal();
+    showToast('Mahasiswa berhasil ditambahkan', 'success');
+    renderMahasiswaTable();
+    refreshNavBadge();
+  });
+}
+
+function openEditMahasiswaModal(nim) {
+  const mhs = state.mahasiswa.find(m => m.nim === nim);
+  openModal('Edit Mahasiswa', `
+    <div class="form-group"><label class="form-label">NIM</label><input class="form-control" id="mNim" value="${mhs.nim}" readonly style="opacity:0.6"></div>
+    <div class="form-group"><label class="form-label">Nama Mahasiswa</label><input class="form-control" id="mNama" value="${mhs.nama}" style="text-transform:uppercase"></div>
+    <div class="form-group"><label class="form-label">Kelas</label>
+      <select class="form-control" id="mKelas">
+        <option value="Treasury-4" ${mhs.kelas==='Treasury-4'?'selected':''}>Treasury-4</option>
+        <option value="Treasury-5" ${mhs.kelas==='Treasury-5'?'selected':''}>Treasury-5</option>
+      </select>
+    </div>
+  `, () => {
+    const nama = document.getElementById('mNama').value.trim().toUpperCase();
+    const kelas = document.getElementById('mKelas').value;
+    if (!nama) return showToast('Nama wajib diisi', 'error');
+    mhs.nama = nama;
+    mhs.kelas = kelas;
+    saveState();
+    closeModal();
+    showToast('Data mahasiswa diperbarui', 'success');
+    renderMahasiswaTable();
+  });
+}
+
+function deleteMahasiswa(nim) {
+  const mhs = state.mahasiswa.find(m => m.nim === nim);
+  openModal('Hapus Mahasiswa', `
+    <div style="text-align:center;padding:10px 0">
+      <div style="font-size:40px;margin-bottom:12px">⚠️</div>
+      <p>Hapus <strong>${mhs.nama}</strong>?</p>
+      <p style="font-size:12px;color:var(--text-secondary);margin-top:8px">Seluruh data nilai mahasiswa ini juga akan dihapus.</p>
+    </div>
+  `, () => {
+    state.mahasiswa = state.mahasiswa.filter(m => m.nim !== nim);
+    state.nilai = state.nilai.filter(n => n.nim !== nim);
+    saveState();
+    closeModal();
+    showToast('Mahasiswa dihapus', 'success');
+    renderMahasiswaTable();
+    refreshNavBadge();
+  }, 'Hapus', 'btn-danger');
+}
+
+// ======================================================
+// INPUT NILAI
+// ======================================================
+let selectedPertemuan = null;
+
+function initInputPage() {
+  // Aktivitas dropdown
+  const sel = document.getElementById('inputMhs');
+  const current = sel ? sel.value : '';
+  if (sel) {
+    const grouped = ['Treasury-4','Treasury-5'].map(k => {
+      const mhsK = state.mahasiswa.filter(m => m.kelas === k);
+      if (!mhsK.length) return '';
+      return `<optgroup label="── ${k} ──">${mhsK.map(m=>`<option value="${m.nim}" ${m.nim===current?'selected':''}>${m.nama}</option>`).join('')}</optgroup>`;
+    }).join('');
+    sel.innerHTML = '<option value="">— Pilih Mahasiswa —</option>' + grouped;
+  }
+
+  // Ujian dropdown
+  const selU = document.getElementById('inputUjianMhs');
+  const currentU = selU ? selU.value : '';
+  if (selU) {
+    const grouped2 = ['Treasury-4','Treasury-5'].map(k => {
+      const mhsK = state.mahasiswa.filter(m => m.kelas === k);
+      if (!mhsK.length) return '';
+      return `<optgroup label="── ${k} ──">${mhsK.map(m=>`<option value="${m.nim}" ${m.nim===currentU?'selected':''}>${m.nama}</option>`).join('')}</optgroup>`;
+    }).join('');
+    selU.innerHTML = '<option value="">— Pilih Mahasiswa —</option>' + grouped2;
+  }
+
+  // Pertemuan buttons
+  const pertemuanBtns = document.getElementById('pertemuanBtns');
+  if (pertemuanBtns) {
+    pertemuanBtns.innerHTML = Array.from({length:14}, (_,i) => i+1).map(p =>
+      `<button class="btn btn-secondary btn-sm" id="pBtn${p}" onclick="selectPertemuan(${p})" style="font-size:11px;padding:6px;font-family:var(--font-mono)">${p}</button>`
+    ).join('');
+  }
+
+  if (current) onInputMhsChange();
+  if (currentU) onUjianMhsChange();
+  renderUjianStatusTable();
+}
+
+// ======================================================
+// UTS / UAS
+// ======================================================
+function onUjianMhsChange() {
+  const nim = document.getElementById('inputUjianMhs')?.value;
+  const fields = document.getElementById('ujianFields');
+  const placeholder = document.getElementById('ujianPlaceholder');
+  const deleteBtn = document.getElementById('btnDeleteUjian');
+  if (!nim) {
+    if (fields) fields.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'block';
+    if (deleteBtn) deleteBtn.style.display = 'none';
+    return;
+  }
+  if (fields) fields.style.display = 'block';
+  if (placeholder) placeholder.style.display = 'none';
+  const existing = state.ujian.find(u => u.nim === nim);
+  const utsEl = document.getElementById('inputUTS');
+  const uasEl = document.getElementById('inputUAS');
+  if (utsEl) utsEl.value = existing ? existing.uts : '';
+  if (uasEl) uasEl.value = existing ? existing.uas : '';
+  if (deleteBtn) deleteBtn.style.display = existing ? 'inline-flex' : 'none';
+  updateUjianPreview();
+}
+
+function clampUjian(field) {
+  const el = document.getElementById('input' + field);
+  if (!el) return;
+  let v = parseInt(el.value) || 0;
+  el.value = Math.min(100, Math.max(0, v));
+  updateUjianPreview();
+}
+
+function updateUjianPreview() {
+  const nim = document.getElementById('inputUjianMhs')?.value;
+  const uts = +(document.getElementById('inputUTS')?.value) || 0;
+  const uas = +(document.getElementById('inputUAS')?.value) || 0;
+  const preview = document.getElementById('ujianPreview');
+  if (!preview) return;
+  const nilaiData = nim ? calcNilaiMhs(nim) : null;
+  const aktivitas = nilaiData?.nilaiAktivitas;
+  let nilaiAkhirStr = '—';
+  let warnStr = '';
+  if (aktivitas !== null && aktivitas !== undefined) {
+    const na = round2((aktivitas * 0.40) + (uts * 0.30) + (uas * 0.30));
+    nilaiAkhirStr = `<strong style="font-size:20px;color:${getScoreColor(na)}">${na}</strong> <span class="badge badge-${getPredikat(na)}">${getPredikat(na)}</span>`;
+  } else {
+    warnStr = `<div style="font-size:11px;color:var(--yellow-400);margin-top:6px">⚠️ Nilai aktivitas belum ada</div>`;
+  }
+  preview.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:12px;margin-bottom:10px">
+      <div style="text-align:center;padding:8px;background:var(--bg-hover);border-radius:6px">
+        <div style="color:var(--text-secondary);font-size:10px;margin-bottom:2px">AKTIVITAS (40%)</div>
+        <strong style="color:${getScoreColor(aktivitas)}">${aktivitas ?? '—'}</strong>
+      </div>
+      <div style="text-align:center;padding:8px;background:var(--bg-hover);border-radius:6px">
+        <div style="color:var(--text-secondary);font-size:10px;margin-bottom:2px">UTS (30%)</div>
+        <strong style="color:${getScoreColor(uts)}">${uts}</strong>
+      </div>
+      <div style="text-align:center;padding:8px;background:var(--bg-hover);border-radius:6px">
+        <div style="color:var(--text-secondary);font-size:10px;margin-bottom:2px">UAS (30%)</div>
+        <strong style="color:${getScoreColor(uas)}">${uas}</strong>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:12px;font-weight:700">Nilai Akhir:</span>
+      <span>${nilaiAkhirStr}</span>
+    </div>${warnStr}`;
+}
+
+function saveUjian() {
+  const nim = document.getElementById('inputUjianMhs')?.value;
+  if (!nim) return showToast('Pilih mahasiswa terlebih dahulu', 'error');
+  const uts = Math.min(100, Math.max(0, +(document.getElementById('inputUTS')?.value) || 0));
+  const uas = Math.min(100, Math.max(0, +(document.getElementById('inputUAS')?.value) || 0));
+  const idx = state.ujian.findIndex(u => u.nim === nim);
+  if (idx >= 0) state.ujian[idx] = { nim, uts, uas };
+  else state.ujian.push({ nim, uts, uas });
+  saveState();
+  showToast('UTS & UAS berhasil disimpan ✓', 'success');
+  const deleteBtn = document.getElementById('btnDeleteUjian');
+  if (deleteBtn) deleteBtn.style.display = 'inline-flex';
+  updateUjianPreview();
+  renderUjianStatusTable();
+}
+
+function deleteUjian() {
+  const nim = document.getElementById('inputUjianMhs')?.value;
+  if (!nim) return;
+  state.ujian = state.ujian.filter(u => u.nim !== nim);
+  saveState();
+  showToast('Data UTS & UAS dihapus', 'info');
+  const utsEl = document.getElementById('inputUTS');
+  const uasEl = document.getElementById('inputUAS');
+  const deleteBtn = document.getElementById('btnDeleteUjian');
+  if (utsEl) utsEl.value = '';
+  if (uasEl) uasEl.value = '';
+  if (deleteBtn) deleteBtn.style.display = 'none';
+  updateUjianPreview();
+  renderUjianStatusTable();
+}
+
+function renderUjianStatusTable() {
+  const tbody = document.getElementById('ujianStatusBody');
+  if (!tbody) return;
+  tbody.innerHTML = getMhsByKelas().map(m => {
+    const u = state.ujian.find(x => x.nim === m.nim);
+    const nd = calcNilaiMhs(m.nim);
+    const na = nd?.nilaiAkhir;
+    return `<tr>
+      <td style="font-size:12px"><strong>${m.nama.split(' ').slice(0,2).join(' ')}</strong></td>
+      <td style="font-family:var(--font-mono);font-size:13px;color:${getScoreColor(u?.uts)}">${u?.uts ?? '<span style="color:var(--text-muted)">—</span>'}</td>
+      <td style="font-family:var(--font-mono);font-size:13px;color:${getScoreColor(u?.uas)}">${u?.uas ?? '<span style="color:var(--text-muted)">—</span>'}</td>
+      <td style="font-family:var(--font-mono);font-size:13px;color:${getScoreColor(nd?.nilaiAktivitas)}">${nd?.nilaiAktivitas ?? '<span style="color:var(--text-muted)">—</span>'}</td>
+      <td>${na !== null && na !== undefined ? `<strong style="color:${getScoreColor(na)}">${na}</strong> <span class="badge badge-${getPredikat(na)}" style="font-size:10px">${getPredikat(na)}</span>` : '<span style="color:var(--text-muted);font-size:11px">—</span>'}</td>
+    </tr>`;
+  }).join('');
+}
+function onInputMhsChange() {
+  const nimEl = document.getElementById('inputMhs');
+  if (!nimEl) return;
+  const nim = nimEl.value;
+  selectedPertemuan = null;
+
+  const setDisplay = (id, v) => { const el = document.getElementById(id); if (el) el.style.display = v; };
+  setDisplay('inputFormFields', 'none');
+  setDisplay('inputPlaceholder', 'block');
+  setDisplay('btnDeleteNilai', 'none');
+
+  if (!nim) {
+    const pt = document.getElementById('inputProgressText');
+    const pb = document.getElementById('inputProgressBar');
+    const pd = document.getElementById('inputProgressDots');
+    const hg = document.getElementById('inputHistoryGrid');
+    if (pt) pt.textContent = '0/0 pertemuan';
+    if (pb) pb.style.width = '0%';
+    if (pd) pd.innerHTML = '';
+    if (hg) hg.innerHTML = '';
+    return;
+  }
+
+  updatePertemuanButtons(nim);
+  renderInputHistory(nim);
+  updateInputProgress(nim);
+}
+
+function updatePertemuanButtons(nim) {
+  for (let p = 1; p <= 14; p++) {
+    const btn = document.getElementById('pBtn' + p);
+    if (!btn) continue;
+    const hasNilai = state.nilai.find(n => n.nim === nim && n.pertemuan === p);
+    btn.className = `btn btn-sm`;
+    if (hasNilai) {
+      btn.style.cssText = 'font-size:11px;padding:6px;font-family:var(--font-mono);background:var(--bg-active);border:1px solid var(--indigo-500);color:var(--indigo-400)';
+    } else {
+      btn.style.cssText = 'font-size:11px;padding:6px;font-family:var(--font-mono);background:var(--bg-hover);border:1px solid var(--border);color:var(--text-secondary)';
+    }
+    if (selectedPertemuan === p) {
+      btn.style.background = 'var(--indigo-600)';
+      btn.style.color = 'white';
+      btn.style.borderColor = 'var(--indigo-500)';
+    }
+  }
+}
+
+function selectPertemuan(p) {
+  const nimEl = document.getElementById('inputMhs');
+  if (!nimEl) { showPage('input'); setTimeout(() => selectPertemuan(p), 100); return; }
+  const nim = nimEl.value;
+  if (!nim) return showToast('Pilih mahasiswa terlebih dahulu', 'error');
+  selectedPertemuan = p;
+
+  const inputPert = document.getElementById('inputPertemuan');
+  if (inputPert) inputPert.value = p;
+
+  updatePertemuanButtons(nim);
+
+  const existing = state.nilai.find(n => n.nim === nim && n.pertemuan === p);
+  const hdr = existing ? existing.hdr : 100;
+  const skp = existing ? existing.skp : 0;
+  const rt  = existing ? existing.rt  : 0;
+  const tgs = existing ? existing.tgs : 0;
+
+  const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+  setVal('inputHDR', hdr); setVal('inputSKP', skp); setVal('inputRT', rt); setVal('inputTGS', tgs);
+
+  ['HDR','SKP','RT','TGS'].forEach(k => {
+    const r = document.getElementById('range'+k);
+    const inp = document.getElementById('input'+k);
+    if (r && inp) r.value = inp.value;
+  });
+
+  const fields = document.getElementById('inputFormFields');
+  const placeholder = document.getElementById('inputPlaceholder');
+  const deleteBtn = document.getElementById('btnDeleteNilai');
+  if (fields) fields.style.display = 'block';
+  if (placeholder) placeholder.style.display = 'none';
+  if (deleteBtn) deleteBtn.style.display = existing ? 'inline-flex' : 'none';
+
+  updatePreview();
+}
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function syncRange(field) {
+  const rangeEl = document.getElementById('range'+cap(field));
+  const inputEl = document.getElementById('input'+cap(field));
+  if (!rangeEl || !inputEl) return;
+  inputEl.value = rangeEl.value;
+  updatePreview();
+}
+
+function updateRangeDisplay(field) {
+  const inputEl = document.getElementById('input'+cap(field));
+  const rangeEl = document.getElementById('range'+cap(field));
+  if (!inputEl || !rangeEl) return;
+  let val = parseInt(inputEl.value) || 0;
+  val = Math.min(100, Math.max(0, val));
+  inputEl.value = val;
+  rangeEl.value = val;
+  updatePreview();
+}
+
+function setKehadiran(v) {
+  const inputEl = document.getElementById('inputHDR');
+  const rangeEl = document.getElementById('rangeHDR');
+  if (!inputEl || !rangeEl) return;
+  inputEl.value = v;
+  rangeEl.value = v;
+  updatePreview();
+}
+
+function updatePreview() {
+  const hdr = +(document.getElementById('inputHDR')?.value) || 0;
+  const skp = +(document.getElementById('inputSKP')?.value) || 0;
+  const rt  = +(document.getElementById('inputRT')?.value)  || 0;
+  const tgs = +(document.getElementById('inputTGS')?.value) || 0;
+  const total = round2((hdr*0.20) + (skp*0.20) + (rt*0.30) + (tgs*0.30));
+
+  const el = document.getElementById('previewScores');
+  if (!el) return;
+  el.innerHTML = `
+    <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-secondary)">HDR — Kehadiran (20%)</span><strong>${hdr}</strong></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-secondary)">SKP — Sikap (20%)</span><strong>${skp}</strong></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-secondary)">RT — Kuis/Review (30%)</span><strong>${rt}</strong></div>
+    <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-secondary)">TGS — Penugasan (30%)</span><strong>${tgs}</strong></div>
+    <div style="display:flex;justify-content:space-between;padding:5px 0;grid-column:1/-1"><span style="font-weight:700">Skor Aktivitas Pertemuan</span><strong style="color:${getScoreColor(total)};font-size:16px">${total}</strong></div>
+  `;
+}
+
+function saveNilai() {
+  const nimEl = document.getElementById('inputMhs');
+  const p = selectedPertemuan;
+  if (!nimEl || !p) return showToast('Pilih mahasiswa dan pertemuan', 'error');
+  const nim = nimEl.value;
+  if (!nim) return showToast('Pilih mahasiswa dan pertemuan', 'error');
+
+  const getVal = (id) => { const el = document.getElementById(id); return el ? +el.value || 0 : 0; };
+  const hdr = Math.min(100, Math.max(0, getVal('inputHDR')));
+  const skp = Math.min(100, Math.max(0, getVal('inputSKP')));
+  const rt  = Math.min(100, Math.max(0, getVal('inputRT')));
+  const tgs = Math.min(100, Math.max(0, getVal('inputTGS')));
+
+  const idx = state.nilai.findIndex(n => n.nim === nim && n.pertemuan === p);
+  if (idx >= 0) {
+    state.nilai[idx] = { nim, pertemuan: p, hdr, skp, rt, tgs };
+  } else {
+    state.nilai.push({ nim, pertemuan: p, hdr, skp, rt, tgs });
+  }
+  saveState();
+  showToast(`Nilai pertemuan ${p} disimpan ✓`, 'success');
+  document.getElementById('btnDeleteNilai').style.display = 'inline-flex';
+  updatePertemuanButtons(nim);
+  renderInputHistory(nim);
+  updateInputProgress(nim);
+}
+
+function deleteNilai() {
+  const nimEl = document.getElementById('inputMhs');
+  const p = selectedPertemuan;
+  if (!nimEl || !p) return;
+  const nim = nimEl.value;
+  if (!nim) return;
+  state.nilai = state.nilai.filter(n => !(n.nim === nim && n.pertemuan === p));
+  saveState();
+  showToast(`Nilai pertemuan ${p} dihapus`, 'info');
+  const deleteBtn = document.getElementById('btnDeleteNilai');
+  if (deleteBtn) deleteBtn.style.display = 'none';
+  updatePertemuanButtons(nim);
+  renderInputHistory(nim);
+  updateInputProgress(nim);
+}
+
+function renderInputHistory(nim) {
+  const nilaiMhs = state.nilai.filter(n => n.nim === nim);
+  const grid = document.getElementById('inputHistoryGrid');
+  if (!grid) return;
+
+  if (!nilaiMhs.length) {
+    grid.innerHTML = `<div class="empty-state" style="padding:30px"><div class="empty-icon" style="font-size:28px">📝</div><div class="empty-desc">Belum ada nilai diinput</div></div>`;
+    return;
+  }
+
+  grid.innerHTML = Array.from({length:14}, (_,i) => i+1).map(p => {
+    const n = nilaiMhs.find(x => x.pertemuan === p);
+    if (!n) return `
+      <div class="pertemuan-card">
+        <div class="pertemuan-num">PERTEMUAN ${p}</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px">Belum diisi</div>
+      </div>`;
+    const score = round2(calcPertemuanScore(n));
+    return `
+      <div class="pertemuan-card filled" onclick="selectPertemuan(${p})" style="cursor:pointer">
+        <div class="pertemuan-num">PERTEMUAN ${p}</div>
+        <div class="pertemuan-scores">
+          <div class="pertemuan-score-row"><span>HDR</span><span>${n.hdr}</span></div>
+          <div class="pertemuan-score-row"><span>SKP</span><span>${n.skp}</span></div>
+          <div class="pertemuan-score-row"><span>RT</span><span>${n.rt}</span></div>
+          <div class="pertemuan-score-row"><span>TGS</span><span>${n.tgs}</span></div>
+        </div>
+        <div class="pertemuan-total">Score: <strong style="color:${getScoreColor(score)}">${score}</strong></div>
+      </div>`;
+  }).join('');
+}
+
+function updateInputProgress(nim) {
+  const filled = state.nilai.filter(n => n.nim === nim).length;
+  const pct = Math.round(filled / 14 * 100);
+  const pt = document.getElementById('inputProgressText');
+  const pb = document.getElementById('inputProgressBar');
+  const dots = document.getElementById('inputProgressDots');
+  if (pt) pt.textContent = `${filled}/14 pertemuan`;
+  if (pb) pb.style.width = pct + '%';
+  if (!dots) return;
+  dots.innerHTML = Array.from({length:14}, (_,i) => {
+    const p = i+1;
+    const has = state.nilai.find(n => n.nim === nim && n.pertemuan === p);
+    return `<div class="p-dot ${has?'filled':''}" title="Pertemuan ${p}">${p}</div>`;
+  }).join('');
+}
+
+// ======================================================
+// REKAP INDIVIDU
+// ======================================================
+function initRekapIndividuPage() {
+  const sel = document.getElementById('selectRekapMhs');
+  const cur = sel ? sel.value : '';
+  if (sel) {
+    const list = getMhsByKelas();
+    const grouped = ['Treasury-4','Treasury-5'].map(k => {
+      const mhsK = list.filter(m => m.kelas === k);
+      if (!mhsK.length) return '';
+      return `<optgroup label="── ${k} ──">${mhsK.map(m=>`<option value="${m.nim}" ${m.nim===cur?'selected':''}>${m.nama}</option>`).join('')}</optgroup>`;
+    }).join('');
+    sel.innerHTML = '<option value="">— Pilih Mahasiswa —</option>' + grouped;
+  }
+  if (cur) renderRekapIndividu();
+}
+
+let rekapChart = null;
+function renderRekapIndividu() {
+  const nim = document.getElementById('selectRekapMhs').value;
+  const container = document.getElementById('rekapIndividuContent');
+
+  if (!nim) { container.innerHTML = `<div class="empty-state"><div class="empty-icon">👤</div><div class="empty-title">Pilih mahasiswa</div><div class="empty-desc">untuk melihat rekap individu</div></div>`; return; }
+
+  const mhs = state.mahasiswa.find(m => m.nim === nim);
+  const nilaiData = calcNilaiMhs(nim);
+  const allRanked = getMhsWithNilai();
+  const mhsRanked = allRanked.find(m => m.nim === nim);
+  const rank = mhsRanked?.rank || '—';
+  const nilaiPertemuan = state.nilai.filter(n => n.nim === nim).sort((a,b)=>a.pertemuan-b.pertemuan);
+
+  const initials = mhs.nama.split(' ').slice(0,2).map(s=>s[0]).join('');
+  const na = nilaiData ? nilaiData.nilaiAkhir : null;
+  const pred = nilaiData ? nilaiData.predikat : '—';
+
+  container.innerHTML = `
+    <div class="profile-header">
+      <div class="profile-avatar">${initials}</div>
+      <div class="profile-info">
+        <h2>${mhs.nama}</h2>
+        <p>NIM: ${mhs.nim} &nbsp;·&nbsp; Kelas: ${mhs.kelas || 'Treasury-4/5'}</p>
+        <div style="margin-top:8px">
+          ${nilaiData ? `<span class="badge badge-${pred}">${pred}</span>` : ''}
+          ${nilaiData ? (nilaiData.lulus ? `<span class="badge badge-lulus" style="margin-left:6px">Lulus</span>` : `<span class="badge badge-tidak" style="margin-left:6px">Tidak Lulus</span>`) : ''}
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <div class="profile-stat-val" style="color:${getScoreColor(na)}">${na || '—'}</div>
+          <div class="profile-stat-label">Nilai Akhir</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-val" style="color:var(--indigo-400)">#${rank}</div>
+          <div class="profile-stat-label">Peringkat</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-val">${nilaiPertemuan.length}/14</div>
+          <div class="profile-stat-label">Pertemuan</div>
+        </div>
+      </div>
+    </div>
+
+    ${nilaiData ? `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px">
+      ${[
+        ['Nilai Aktivitas', nilaiData.nilaiAktivitas, '40%', 'indigo'],
+        ['UTS', nilaiData.uts ?? '—', '30%', 'blue'],
+        ['UAS', nilaiData.uas ?? '—', '30%', 'violet'],
+      ].map(([label, val, bobot, color]) => `
+        <div class="stat-card ${color}">
+          <div class="stat-label">${label}</div>
+          <div class="stat-value" style="font-size:22px">${val}</div>
+          <div class="stat-sub">Bobot ${bobot}</div>
+          <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:${val||0}%;background:${getScoreColor(val)}"></div></div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px">
+      ${[
+        ['HDR — Kehadiran', nilaiData.avgHDR, '8%', 'green'],
+        ['SKP — Sikap', nilaiData.avgSKP, '8%', 'indigo'],
+        ['RT — Kuis/Review', nilaiData.avgRT, '12%', 'blue'],
+        ['TGS — Penugasan', nilaiData.avgTGS, '12%', 'violet'],
+      ].map(([label, val, bobot, color]) => `
+        <div class="stat-card ${color}">
+          <div class="stat-label">${label}</div>
+          <div class="stat-value" style="font-size:18px">${val}</div>
+          <div class="stat-sub">× ${bobot} aktivitas</div>
+          <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:${val}%;background:${getScoreColor(val)}"></div></div>
+        </div>
+      `).join('')}
+    </div>
+    ` : ''}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Tren Nilai per Pertemuan</div></div>
+        <div class="card-body" style="height:200px">
+          <canvas id="rekapChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Radar Kompetensi</div></div>
+        <div class="card-body" style="height:200px">
+          <canvas id="rekapRadar"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Rekap 14 Pertemuan</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div class="pertemuan-grid" id="rekapPertemuanGrid"></div>
+      </div>
+    </div>
+  `;
+
+  // Charts
+  if (nilaiPertemuan.length) {
+    const labels = nilaiPertemuan.map(n => `P${n.pertemuan}`);
+    const scores = nilaiPertemuan.map(n => round2(calcPertemuanScore(n)));
+
+    destroyChart('rekapChart');
+    new Chart(document.getElementById('rekapChart'), {
+      type: 'line',
+      data: { labels, datasets: [{ label: 'Skor Pertemuan', data: scores, borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.1)', fill: true, tension: 0.4, pointBackgroundColor: '#6366f1', pointRadius: 5 }] },
+      options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{min:0,max:100,grid:{color:getGridColor()},ticks:{color:getTickColor()}},x:{grid:{display:false},ticks:{color:getTickColor()}}} }
+    });
+
+    const nd = nilaiData;
+    destroyChart('rekapRadar');
+    new Chart(document.getElementById('rekapRadar'), {
+      type: 'radar',
+      data: {
+        labels: ['HDR','SKP','RT','TGS'],
+        datasets: [{ label: mhs.nama.split(' ')[0], data: [nd.avgHDR, nd.avgSKP, nd.avgRT, nd.avgTGS], borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.2)', pointBackgroundColor: '#6366f1' }]
+      },
+      options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ r:{ min:0, max:100, grid:{color:'rgba(255,255,255,0.08)'}, ticks:{color:getTickColor(),stepSize:25}, pointLabels:{color:getTickColor()} } } }
+    });
+  }
+
+  // Pertemuan Grid
+  const rekapGrid = document.getElementById('rekapPertemuanGrid');
+  rekapGrid.innerHTML = Array.from({length:14}, (_,i) => i+1).map(p => {
+    const n = nilaiPertemuan.find(x => x.pertemuan === p);
+    if (!n) return `<div class="pertemuan-card"><div class="pertemuan-num">PERTEMUAN ${p}</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Belum diisi</div></div>`;
+    const score = round2(calcPertemuanScore(n));
+    return `
+      <div class="pertemuan-card filled">
+        <div class="pertemuan-num">PERTEMUAN ${p}</div>
+        <div class="pertemuan-scores">
+          <div class="pertemuan-score-row"><span>HDR</span><span>${n.hdr}</span></div>
+          <div class="pertemuan-score-row"><span>SKP</span><span>${n.skp}</span></div>
+          <div class="pertemuan-score-row"><span>RT</span><span>${n.rt}</span></div>
+          <div class="pertemuan-score-row"><span>TGS</span><span>${n.tgs}</span></div>
+        </div>
+        <div class="pertemuan-total">Score: <strong style="color:${getScoreColor(score)}">${score}</strong></div>
+      </div>`;
+  }).join('');
+}
+
+// ======================================================
+// REKAP KELAS
+// ======================================================
+function renderRekapKelas() {
+  const q = (document.getElementById('searchRekap')?.value || '').toLowerCase();
+  let list = getMhsWithNilai(getMhsByKelas());
+  if (q) list = list.filter(m => m.nama.toLowerCase().includes(q) || m.nim.includes(q));
+
+  document.getElementById('rekapKelasBody').innerHTML = list.map(m => `
+    <tr>
+      <td><span class="rank-number ${m.rank<=3?'rank-'+m.rank:''}">#${m.rank}</span></td>
+      <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">${m.nim}</code></td>
+      <td><strong>${m.nama}</strong></td>
+      <td style="color:${getScoreColor(m.nilaiAktivitas)};font-family:var(--font-mono)">${m.nilaiAktivitas ?? '—'}</td>
+      <td style="color:${getScoreColor(m.uts)};font-family:var(--font-mono)">${m.uts ?? '—'}</td>
+      <td style="color:${getScoreColor(m.uas)};font-family:var(--font-mono)">${m.uas ?? '—'}</td>
+      <td><strong style="color:${getScoreColor(m.nilaiAkhir)};font-size:15px">${m.nilaiAkhir !== null && m.nilaiAkhir !== undefined ? m.nilaiAkhir : '—'}</strong></td>
+      <td>${m.nilaiAkhir !== null && m.nilaiAkhir !== undefined ? `<span class="badge badge-${m.predikat}">${m.predikat}</span>` : '—'}</td>
+    </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px">Belum ada data</td></tr>';
+}
+
+// ======================================================
+// RANKING
+// ======================================================
+function renderRanking() {
+  const list = getMhsWithNilai(getMhsByKelas()).filter(m => m.hasNilai);
+
+  // Podium
+  const top3 = list.slice(0, 3);
+  const medals = ['gold','silver','bronze'];
+  const medEmojis = ['🥇','🥈','🥉'];
+  const podiumOrder = [1,0,2]; // silver, gold, bronze order visually
+
+  document.getElementById('podiumSection').innerHTML = podiumOrder.map(i => {
+    const m = top3[i];
+    if (!m) return '';
+    return `
+      <div class="podium-card ${medals[i]}">
+        <div class="podium-medal">${medEmojis[i]}</div>
+        <div class="podium-name">${m.nama.split(' ').slice(0,2).join(' ')}</div>
+        <div class="podium-score">${m.nilaiAkhir}</div>
+        <div class="podium-nim">${m.nim}</div>
+        <div style="margin-top:6px"><span class="badge badge-${m.predikat}">${m.predikat}</span></div>
+      </div>`;
+  }).join('');
+
+  // Full table
+  document.getElementById('rankingTableBody').innerHTML = list.map(m => `
+    <tr>
+      <td>
+        ${m.rank <= 3 ? ['🥇','🥈','🥉'][m.rank-1] : ''}
+        <span class="rank-number ${m.rank<=3?'rank-'+m.rank:''}">#${m.rank}</span>
+      </td>
+      <td><code style="font-family:var(--font-mono);font-size:12px;color:var(--indigo-400)">${m.nim}</code></td>
+      <td><strong>${m.nama}</strong></td>
+      <td><strong style="color:${getScoreColor(m.nilaiAkhir)};font-size:15px">${m.nilaiAkhir}</strong></td>
+      <td><span class="badge badge-${m.predikat}">${m.predikat}</span></td>
+      <td>${m.nilaiAktivitas ?? '—'}</td>
+      <td style="color:${getScoreColor(m.uts)}">${m.uts ?? '—'}</td>
+      <td style="color:${getScoreColor(m.uas)}">${m.uas ?? '—'}</td>
+    </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:30px">Belum ada data nilai</td></tr>';
+}
+
+// ======================================================
+// ANALYTICS
+// ======================================================
+function renderAnalytics() {
+  const hasnilai = getMhsWithNilai(getMhsByKelas()).filter(m => m.hasNilai);
+  generateInsights(hasnilai);
+  renderAnalyticsCharts(hasnilai);
+  renderHeatmap();
+  // Populate individu dropdown
+  const sel = document.getElementById('analyticsSelectMhs');
+  if (sel) {
+    const list = getMhsByKelas();
+    const grouped = ['Treasury-4','Treasury-5'].map(k => {
+      const mhsK = list.filter(m => m.kelas === k);
+      if (!mhsK.length) return '';
+      return `<optgroup label="── ${k} ──">${mhsK.map(m=>`<option value="${m.nim}">${m.nama}</option>`).join('')}</optgroup>`;
+    }).join('');
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">— Pilih Mahasiswa —</option>' + grouped;
+    if (cur) { sel.value = cur; renderAnalyticsIndividu(); }
+  }
+}
+
+// ── Tab switching ──
+let analyticsTab = 'kelas';
+function switchAnalyticsTab(tab) {
+  analyticsTab = tab;
+  document.getElementById('analyticsKelasSection').style.display   = tab === 'kelas'    ? 'block' : 'none';
+  document.getElementById('analyticsIndividuSection').style.display = tab === 'individu' ? 'block' : 'none';
+  document.getElementById('analyticsTabKelas').className    = tab === 'kelas'    ? 'btn btn-primary'   : 'btn btn-secondary';
+  document.getElementById('analyticsTabIndividu').className = tab === 'individu' ? 'btn btn-primary'   : 'btn btn-secondary';
+  if (tab === 'individu') renderAnalyticsIndividu();
+}
+
+// ── Per-mahasiswa analytics ──
+function renderAnalyticsIndividu() {
+  const nim = document.getElementById('analyticsSelectMhs')?.value;
+  const container = document.getElementById('analyticsIndividuContent');
+  if (!container) return;
+  if (!nim) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">👤</div><div class="empty-title">Pilih mahasiswa</div><div class="empty-desc">untuk melihat analitik individu</div></div>`;
+    return;
+  }
+  const mhs = state.mahasiswa.find(m => m.nim === nim);
+  const nd  = calcNilaiMhs(nim);
+  const nilaiPertemuan = state.nilai.filter(n => n.nim === nim).sort((a,b) => a.pertemuan - b.pertemuan);
+  const ujianMhs = state.ujian.find(u => u.nim === nim);
+  const allRanked = getMhsWithNilai(getMhsByKelas());
+  const rank = allRanked.find(m => m.nim === nim)?.rank || '—';
+
+  if (!nd && !ujianMhs && !nilaiPertemuan.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📝</div><div class="empty-title">Belum ada data</div><div class="empty-desc">Mahasiswa ini belum memiliki nilai apapun</div></div>`;
+    return;
+  }
+
+  // Progress calculation
+  const hasUTS = ujianMhs?.uts !== null && ujianMhs?.uts !== undefined && ujianMhs?.uts !== '';
+  const hasUAS = ujianMhs?.uas !== null && ujianMhs?.uas !== undefined && ujianMhs?.uas !== '';
+  const pertPct = Math.round((nilaiPertemuan.length / 14) * 60);
+  const totalPct = pertPct + (hasUTS ? 20 : 0) + (hasUAS ? 20 : 0);
+
+  container.innerHTML = `
+    <!-- Profile header -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px">
+      <div class="stat-card indigo" style="grid-column:1/-1">
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--indigo-500),var(--blue-500));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:white;flex-shrink:0">${mhs.nama.split(' ').slice(0,2).map(s=>s[0]).join('')}</div>
+          <div style="flex:1">
+            <div style="font-size:16px;font-weight:700">${mhs.nama}</div>
+            <div style="font-size:11px;color:var(--text-secondary);font-family:var(--font-mono)">${mhs.nim} · ${mhs.kelas} · Rank #${rank}</div>
+            <!-- Progress bar -->
+            <div style="margin-top:8px">
+              <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-secondary);margin-bottom:3px">
+                <span>Progress Penilaian</span><span>${totalPct}%</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:${totalPct}%;background:${getScoreColor(totalPct)}"></div></div>
+              <div style="font-size:10px;color:var(--text-muted);margin-top:3px">Aktivitas: ${nilaiPertemuan.length}/14 pertemuan · UTS: ${hasUTS?'✓':'belum'} · UAS: ${hasUAS?'✓':'belum'}</div>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-size:32px;font-weight:800;color:${getScoreColor(nd?.nilaiAkhir)}">${nd?.nilaiAkhir ?? '—'}</div>
+            <div>${nd?.nilaiAkhir !== null && nd?.nilaiAkhir !== undefined ? `<span class="badge badge-${nd.predikat}">${nd.predikat}</span>` : '<span style="font-size:11px;color:var(--text-muted)">Nilai akhir belum lengkap</span>'}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Component scores -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+      <div class="stat-card indigo">
+        <div class="stat-label">Nilai Aktivitas</div>
+        <div class="stat-value" style="font-size:22px">${nd?.nilaiAktivitas ?? '—'}</div>
+        <div class="stat-sub">Bobot 40%</div>
+        <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:${nd?.nilaiAktivitas??0}%;background:${getScoreColor(nd?.nilaiAktivitas)}"></div></div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label">UTS</div>
+        <div class="stat-value" style="font-size:22px">${ujianMhs?.uts ?? '—'}</div>
+        <div class="stat-sub">Bobot 30%</div>
+        <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:${ujianMhs?.uts??0}%;background:${getScoreColor(ujianMhs?.uts)}"></div></div>
+      </div>
+      <div class="stat-card violet">
+        <div class="stat-label">UAS</div>
+        <div class="stat-value" style="font-size:22px">${ujianMhs?.uas ?? '—'}</div>
+        <div class="stat-sub">Bobot 30%</div>
+        <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="width:${ujianMhs?.uas??0}%;background:${getScoreColor(ujianMhs?.uas)}"></div></div>
+      </div>
+    </div>
+
+    <!-- Sub-component aktivitas -->
+    ${nd ? `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+      ${[['HDR','avgHDR','8%','green'],['SKP','avgSKP','8%','indigo'],['RT','avgRT','12%','blue'],['TGS','avgTGS','12%','violet']].map(([label,key,bobot,color])=>`
+        <div class="stat-card ${color}">
+          <div class="stat-label">${label}</div>
+          <div class="stat-value" style="font-size:18px">${nd[key]}</div>
+          <div class="stat-sub">${bobot} dari total</div>
+          <div class="progress-bar" style="margin-top:6px"><div class="progress-fill" style="width:${nd[key]}%;background:${getScoreColor(nd[key])}"></div></div>
+        </div>`).join('')}
+    </div>` : ''}
+
+    <!-- Charts -->
+    ${nilaiPertemuan.length >= 2 ? `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+      <div class="card analytics-card">
+        <div class="chart-title">Tren Skor Aktivitas per Pertemuan</div>
+        <div class="chart-sub">Perkembangan skor dari pertemuan ke pertemuan</div>
+        <div style="height:200px"><canvas id="analyticsIndivTren"></canvas></div>
+      </div>
+      <div class="card analytics-card">
+        <div class="chart-title">Radar Kompetensi Individu</div>
+        <div class="chart-sub">HDR · SKP · RT · TGS</div>
+        <div style="height:200px"><canvas id="analyticsIndivRadar"></canvas></div>
+      </div>
+    </div>` : nilaiPertemuan.length === 1 ? `<div style="margin-bottom:16px;padding:12px 16px;background:var(--bg-hover);border:1px solid var(--border);border-radius:var(--radius-md);font-size:12px;color:var(--text-secondary)">📊 Grafik tren membutuhkan minimal 2 pertemuan data</div>` : ''}
+
+    <!-- Pertemuan detail table -->
+    ${nilaiPertemuan.length > 0 ? `
+    <div class="card">
+      <div class="card-header"><div class="card-title">Detail per Pertemuan</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Pertemuan</th><th>HDR</th><th>SKP</th><th>RT</th><th>TGS</th><th>Skor Aktivitas</th></tr></thead>
+            <tbody>${Array.from({length:14},(_,i)=>i+1).map(p=>{
+              const n = nilaiPertemuan.find(x=>x.pertemuan===p);
+              if (!n) return `<tr><td style="color:var(--text-muted)">P${p}</td><td colspan="5" style="color:var(--text-muted);font-size:11px">Belum diisi</td></tr>`;
+              const score = round2(calcPertemuanScore(n));
+              return `<tr><td><strong>P${p}</strong></td><td>${n.hdr}</td><td>${n.skp}</td><td>${n.rt}</td><td>${n.tgs}</td><td><strong style="color:${getScoreColor(score)}">${score}</strong></td></tr>`;
+            }).join('')}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>` : ''}
+  `;
+
+  // Render charts after DOM update
+  if (nilaiPertemuan.length >= 2) {
+    setTimeout(() => {
+      const labels = nilaiPertemuan.map(n=>`P${n.pertemuan}`);
+      const scores = nilaiPertemuan.map(n=>round2(calcPertemuanScore(n)));
+      destroyChart('analyticsIndivTren');
+      new Chart(document.getElementById('analyticsIndivTren'), {
+        type:'line',
+        data:{ labels, datasets:[{ label:'Skor', data:scores, borderColor:'#6366f1', backgroundColor:'rgba(99,102,241,0.1)', fill:true, tension:0.4, pointBackgroundColor:'#6366f1', pointRadius:4 }] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{min:0,max:100,grid:{color:getGridColor()},ticks:{color:getTickColor()}},x:{grid:{display:false},ticks:{color:getTickColor()}}} }
+      });
+      if (nd) {
+        destroyChart('analyticsIndivRadar');
+        new Chart(document.getElementById('analyticsIndivRadar'), {
+          type:'radar',
+          data:{ labels:['HDR','SKP','RT','TGS'], datasets:[{ label:mhs.nama.split(' ')[0], data:[nd.avgHDR,nd.avgSKP,nd.avgRT,nd.avgTGS], borderColor:'#6366f1', backgroundColor:'rgba(99,102,241,0.2)', pointBackgroundColor:'#6366f1' }] },
+          options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{r:{min:0,max:100,grid:{color:getGridColor()},ticks:{color:getTickColor(),stepSize:25},pointLabels:{color:getTickColor()}}} }
+        });
+      }
+    }, 50);
+  }
+}
+
+function generateInsights(hasnilai) {
+  if (!hasnilai.length) {
+    document.getElementById('insightGrid').innerHTML = '';
+    return;
+  }
+  const sorted = [...hasnilai].sort((a,b)=>b.nilaiAkhir-a.nilaiAkhir);
+  const best = sorted[0];
+  const worst = sorted[sorted.length-1];
+  const mostImproved = calcMostImproved();
+  const consistent = findMostConsistent();
+  const attendLeader = [...hasnilai].sort((a,b)=>b.avgKehadiran-a.avgKehadiran)[0];
+  const needAttention = sorted.filter(m => m.nilaiAkhir < 55);
+
+  // Best/worst pertemuan
+  let bestPert = null, worstPert = null;
+  for (let p = 1; p <= 14; p++) {
+    const nilaiP = state.nilai.filter(n => n.pertemuan === p);
+    if (!nilaiP.length) continue;
+    const avgScore = avg(nilaiP.map(n => calcPertemuanScore(n)));
+    if (!bestPert || avgScore > bestPert.avg) bestPert = { p, avg: round2(avgScore) };
+    if (!worstPert || avgScore < worstPert.avg) worstPert = { p, avg: round2(avgScore) };
+  }
+
+  const insights = [
+    { icon:'🏆', label:'Top Performer', value: best.nama.split(' ').slice(0,2).join(' '), desc: `Nilai Akhir: ${best.nilaiAkhir}` },
+    { icon:'📈', label:'Most Improved', value: mostImproved ? mostImproved.nama.split(' ').slice(0,2).join(' ') : '—', desc: mostImproved ? `+${mostImproved.improvement} peningkatan` : 'Perlu lebih banyak data' },
+    { icon:'🎯', label:'Paling Konsisten', value: consistent ? consistent.nama.split(' ').slice(0,2).join(' ') : '—', desc: consistent ? `Std Dev: ${consistent.std}` : '—' },
+    { icon:'✅', label:'Attendance Leader', value: attendLeader.nama.split(' ').slice(0,2).join(' '), desc: `Rata kehadiran: ${attendLeader.avgKehadiran}` },
+    { icon:'⚠️', label:'Perlu Perhatian', value: `${needAttention.length} mahasiswa`, desc: needAttention.map(m=>m.nama.split(' ')[0]).join(', ') || 'Semua lulus' },
+    { icon:'🌟', label:'Pertemuan Terbaik', value: bestPert ? `Pertemuan ${bestPert.p}` : '—', desc: bestPert ? `Rata skor: ${bestPert.avg}` : '—' },
+    { icon:'📉', label:'Pertemuan Terendah', value: worstPert ? `Pertemuan ${worstPert.p}` : '—', desc: worstPert ? `Rata skor: ${worstPert.avg}` : '—' },
+  ];
+
+  document.getElementById('insightGrid').innerHTML = insights.map(ins => `
+    <div class="insight-card">
+      <div class="insight-icon">${ins.icon}</div>
+      <div>
+        <div class="insight-label">${ins.label}</div>
+        <div class="insight-value">${ins.value}</div>
+        <div class="insight-desc">${ins.desc}</div>
+      </div>
+    </div>`).join('');
+}
+
+function findMostConsistent() {
+  let best = null;
+  state.mahasiswa.forEach(m => {
+    const nilaiMhs = state.nilai.filter(n => n.nim === m.nim);
+    if (nilaiMhs.length < 3) return;
+    const scores = nilaiMhs.map(n => calcPertemuanScore(n));
+    const mean = avg(scores);
+    const std = round2(Math.sqrt(avg(scores.map(s => Math.pow(s - mean, 2)))));
+    if (!best || std < best.std) best = { ...m, std };
+  });
+  return best;
+}
+
+function renderAnalyticsCharts(hasnilai) {
+  // Distribusi
+  const bins = { '0-39':0, '40-54':0, '55-69':0, '70-84':0, '85-100':0 };
+  hasnilai.forEach(m => {
+    const v = m.nilaiAkhir;
+    if (v < 40) bins['0-39']++;
+    else if (v < 55) bins['40-54']++;
+    else if (v < 70) bins['55-69']++;
+    else if (v < 85) bins['70-84']++;
+    else bins['85-100']++;
+  });
+
+  destroyChart('analyticsDistribusi');
+  new Chart(document.getElementById('analyticsDistribusi'), {
+    type: 'bar',
+    data: { labels: Object.keys(bins), datasets: [{ data: Object.values(bins), backgroundColor: ['rgba(239,68,68,0.7)','rgba(251,146,60,0.7)','rgba(250,204,21,0.7)','rgba(99,102,241,0.7)','rgba(34,197,94,0.7)'], borderRadius:6, borderWidth:0 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{grid:{color:getGridColor()},ticks:{color:getTickColor(),stepSize:1}},x:{grid:{display:false},ticks:{color:getTickColor()}}} }
+  });
+
+  // Top 10
+  const top10 = [...hasnilai].sort((a,b)=>b.nilaiAkhir-a.nilaiAkhir).slice(0,10);
+  destroyChart('analyticsTop10');
+  new Chart(document.getElementById('analyticsTop10'), {
+    type: 'bar',
+    data: { labels: top10.map(m=>m.nama.split(' ')[0]), datasets: [{ data: top10.map(m=>m.nilaiAkhir), backgroundColor: top10.map(m=>m.rank<=3?'rgba(99,102,241,0.8)':'rgba(99,102,241,0.4)'), borderRadius:6, borderWidth:0 }] },
+    options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{min:0,max:100,grid:{color:getGridColor()},ticks:{color:getTickColor()}},y:{grid:{display:false},ticks:{color:getTickColor(),font:{size:10}}}} }
+  });
+
+  // Tren per Pertemuan — hanya dari mahasiswa kelas aktif yg sudah punya nilai
+  const nimKelas = getMhsByKelas().map(m => m.nim);
+  const nilaiKelas = state.nilai.filter(n => nimKelas.includes(n.nim));
+
+  const trenData = Array.from({length:14}, (_,i) => i+1).map(p => {
+    const nilaiP = nilaiKelas.filter(n => n.pertemuan === p);
+    // Only show if at least 1 student has data for this pertemuan
+    return nilaiP.length > 0 ? round2(avg(nilaiP.map(n => calcPertemuanScore(n)))) : null;
+  });
+  // Only show points where data exists
+  const hasAnyTren = trenData.some(v => v !== null);
+  destroyChart('analyticsTren');
+  new Chart(document.getElementById('analyticsTren'), {
+    type: 'line',
+    data: { labels: Array.from({length:14},(_,i)=>`P${i+1}`), datasets: [{ label:'Rata-rata Kelas', data: trenData, borderColor:'#6366f1', backgroundColor:'rgba(99,102,241,0.1)', fill:true, tension:0.4, pointBackgroundColor:'#6366f1', pointRadius: trenData.map(v => v !== null ? 4 : 0), spanGaps:false }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{min:0,max:100,grid:{color:getGridColor()},ticks:{color:getTickColor()}},x:{grid:{display:false},ticks:{color:getTickColor()}}} }
+  });
+
+  // Kehadiran per pertemuan — hanya dari mahasiswa kelas aktif
+  const hadirData = Array.from({length:14}, (_,i) => i+1).map(p => {
+    const nilaiP = nilaiKelas.filter(n => n.pertemuan === p);
+    // Only show if at least 1 student has actual data for this pertemuan
+    return nilaiP.length > 0 ? round2(avg(nilaiP.map(n => +n.hdr))) : null;
+  });
+  destroyChart('analyticsKehadiran');
+  new Chart(document.getElementById('analyticsKehadiran'), {
+    type: 'bar',
+    data: { labels: Array.from({length:14},(_,i)=>`P${i+1}`), datasets: [{ data: hadirData, backgroundColor: hadirData.map(v => v >= 90 ? 'rgba(34,197,94,0.7)' : v >= 75 ? 'rgba(99,102,241,0.7)' : 'rgba(239,68,68,0.7)'), borderRadius:6, borderWidth:0 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{min:0,max:100,grid:{color:getGridColor()},ticks:{color:getTickColor()}},x:{grid:{display:false},ticks:{color:getTickColor()}}} }
+  });
+
+  // Radar
+  const avgComp = hasnilai.length ? {
+    HDR: round2(avg(hasnilai.map(m=>m.avgHDR))),
+    SKP: round2(avg(hasnilai.map(m=>m.avgSKP))),
+    RT:  round2(avg(hasnilai.map(m=>m.avgRT))),
+    TGS: round2(avg(hasnilai.map(m=>m.avgTGS))),
+  } : {HDR:0,SKP:0,RT:0,TGS:0};
+
+  destroyChart('analyticsRadar');
+  new Chart(document.getElementById('analyticsRadar'), {
+    type: 'radar',
+    data: {
+      labels: Object.keys(avgComp),
+      datasets: [{ label: 'Rata-rata Kelas', data: Object.values(avgComp), borderColor:'#6366f1', backgroundColor:'rgba(99,102,241,0.2)', pointBackgroundColor:'#6366f1' }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{r:{min:0,max:100,grid:{color:'rgba(255,255,255,0.08)'},ticks:{color:getTickColor(),stepSize:25},pointLabels:{color:getTickColor()}}} }
+  });
+}
+
+function renderHeatmap() {
+  const container = document.getElementById('heatmapContainer');
+  const list = getMhsWithNilai(getMhsByKelas()).filter(m => m.hasNilai);
+
+  if (!list.length) {
+    container.innerHTML = '<div class="empty-state" style="padding:30px"><div class="empty-icon">📊</div><div class="empty-desc">Belum ada data untuk heatmap</div></div>';
+    return;
+  }
+
+  const filledPertemuan = Array.from({length:14}, (_,i) => i+1).filter(p => state.nilai.some(n=>n.pertemuan===p));
+  if (!filledPertemuan.length) { container.innerHTML = '<div style="font-size:13px;color:var(--text-muted);padding:20px">Belum ada data</div>'; return; }
+
+  let html = `<table class="heatmap-table">
+    <thead><tr><th class="heatmap-row-label">Mahasiswa</th>${filledPertemuan.map(p=>`<th>P${p}</th>`).join('')}<th>Avg</th></tr></thead>
+    <tbody>`;
+
+  list.forEach(m => {
+    html += `<tr><td class="heatmap-row-label" title="${m.nama}">${m.nama.split(' ')[0]}</td>`;
+    filledPertemuan.forEach(p => {
+      const n = state.nilai.find(x => x.nim === m.nim && x.pertemuan === p);
+      if (!n) { html += `<td style="background:var(--bg-hover);color:var(--text-muted)">—</td>`; return; }
+      const score = round2(calcPertemuanScore(n));
+      const pct = score / 100;
+      const r = Math.round(239 * (1-pct) + 34 * pct);
+      const g = Math.round(68 * (1-pct) + 197 * pct);
+      const b = Math.round(68 * (1-pct) + 94 * pct);
+      html += `<td style="background:rgba(${r},${g},${b},0.25);color:rgb(${r},${g},${b})" title="${m.nama} P${p}: ${score}">${score}</td>`;
+    });
+    const avgScore = m.nilaiAkhir;
+    const pct = avgScore / 100;
+    const r = Math.round(239*(1-pct)+34*pct), g = Math.round(68*(1-pct)+197*pct), b = Math.round(68*(1-pct)+94*pct);
+    html += `<td style="background:rgba(${r},${g},${b},0.3);color:rgb(${r},${g},${b});font-weight:700">${avgScore}</td>`;
+    html += '</tr>';
+  });
+
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+// ======================================================
+// FIREBASE CONFIG MANAGEMENT (save to localStorage)
+// ======================================================
+const FB_CONFIG_KEY = 'edurank_fb_config';
+
+function loadFbConfig() {
+  try {
+    const saved = localStorage.getItem(FB_CONFIG_KEY);
+    if (!saved) return null;
+    return JSON.parse(saved);
+  } catch(e) { return null; }
+}
+
+function saveFbConfig() {
+  const cfg = {
+    apiKey:            document.getElementById('fbApiKey')?.value.trim(),
+    authDomain:        document.getElementById('fbAuthDomain')?.value.trim(),
+    databaseURL:       document.getElementById('fbDatabaseURL')?.value.trim(),
+    projectId:         document.getElementById('fbProjectId')?.value.trim(),
+    storageBucket:     '',
+    messagingSenderId: document.getElementById('fbMessagingSenderId')?.value.trim(),
+    appId:             document.getElementById('fbAppId')?.value.trim(),
+  };
+
+  if (!cfg.apiKey || !cfg.databaseURL || !cfg.projectId) {
+    showToast('API Key, Database URL, dan Project ID wajib diisi', 'error');
+    return;
+  }
+
+  localStorage.setItem(FB_CONFIG_KEY, JSON.stringify(cfg));
+  showToast('Config disimpan — menghubungkan ke Firebase...', 'info');
+
+  // Apply and reconnect
+  Object.assign(FIREBASE_CONFIG, cfg);
+  const statusEl = document.getElementById('fbConfigStatus');
+  if (statusEl) { statusEl.textContent = 'Terkonfigurasi ✓'; statusEl.style.color = 'var(--green-400)'; statusEl.style.borderColor = 'rgba(34,197,94,0.3)'; statusEl.style.background = 'rgba(34,197,94,0.1)'; }
+  initFirebase();
+}
+
+function clearFbConfig() {
+  localStorage.removeItem(FB_CONFIG_KEY);
+  ['fbApiKey','fbAuthDomain','fbDatabaseURL','fbProjectId','fbMessagingSenderId','fbAppId'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  showToast('Firebase config dihapus — mode lokal aktif', 'info');
+  setFbStatus('local', 'Mode lokal');
+  const statusEl = document.getElementById('fbConfigStatus');
+  if (statusEl) { statusEl.textContent = 'Belum dikonfigurasi'; statusEl.style.color = '#fb923c'; statusEl.style.borderColor = 'rgba(251,146,60,0.3)'; statusEl.style.background = 'rgba(251,146,60,0.1)'; }
+}
+
+function populateFbForm() {
+  const cfg = loadFbConfig();
+  if (!cfg) return;
+  const map = { fbApiKey:'apiKey', fbAuthDomain:'authDomain', fbDatabaseURL:'databaseURL', fbProjectId:'projectId', fbMessagingSenderId:'messagingSenderId', fbAppId:'appId' };
+  Object.entries(map).forEach(([elId, cfgKey]) => {
+    const el = document.getElementById(elId);
+    if (el && cfg[cfgKey]) el.value = cfg[cfgKey];
+  });
+  const statusEl = document.getElementById('fbConfigStatus');
+  if (statusEl) { statusEl.textContent = 'Terkonfigurasi ✓'; statusEl.style.color = 'var(--green-400)'; statusEl.style.borderColor = 'rgba(34,197,94,0.3)'; statusEl.style.background = 'rgba(34,197,94,0.1)'; }
+}
+
+// ── Push current local data to Firebase (manual sync button) ──
+function pushLocalToFirebase() {
+  if (!fbInitialized || !db) {
+    showToast('Firebase belum terhubung', 'error');
+    return;
+  }
+  pushToFirebase();
+  showToast('Data lokal dikirim ke Firebase ✓', 'success');
+}
+function generateShareLink() {
+  try {
+    const data = { mahasiswa: state.mahasiswa, nilai: state.nilai, ujian: state.ujian };
+    const json = JSON.stringify(data);
+    const compressed = btoa(encodeURIComponent(json));
+    const url = window.location.href.split('?')[0].split('#')[0] + '?data=' + compressed;
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('Link berhasil disalin! Buka di komputer lain untuk import data.', 'success');
+    }).catch(() => {
+      // Fallback: show in prompt
+      prompt('Copy link ini dan buka di komputer lain:', url);
+    });
+  } catch(e) {
+    showToast('Gagal generate link: ' + e.message, 'error');
+  }
+}
+
+function checkImportFromURL() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const dataParam = params.get('data');
+    if (!dataParam) return;
+
+    const json = decodeURIComponent(atob(dataParam));
+    const data = JSON.parse(json);
+    if (!data.mahasiswa || !data.nilai) return;
+
+    // Ask user
+    openModal('Import Data dari Link', `
+      <div style="text-align:center;padding:10px 0">
+        <div style="font-size:40px;margin-bottom:12px">📲</div>
+        <p>Terdeteksi data dari link share.</p>
+        <p style="font-size:12px;color:var(--text-secondary);margin-top:8px">
+          ${data.mahasiswa.length} mahasiswa &nbsp;·&nbsp;
+          ${data.nilai.length} entri nilai &nbsp;·&nbsp;
+          ${(data.ujian||[]).length} data ujian
+        </p>
+        <p style="font-size:12px;color:var(--yellow-400);margin-top:8px">⚠️ Data lokal saat ini akan ditimpa.</p>
+      </div>
+    `, () => {
+      state.mahasiswa = data.mahasiswa;
+      state.nilai = data.nilai;
+      state.ujian = data.ujian || [];
+      saveState();
+      closeModal();
+      showToast('Data berhasil diimport dari link ✓', 'success');
+      refreshNavBadge();
+      renderPage(currentPage);
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname);
+    }, 'Import', 'btn-primary');
+  } catch(e) {
+    // Silent fail — malformed data param
+  }
+}
+function exportTableCSV(tableId, filename) {
+  const table = document.getElementById(tableId);
+  if (!table) { exportRekapCSV(filename); return; }
+  const rows = [];
+  table.querySelectorAll('tr').forEach(tr => {
+    rows.push(Array.from(tr.querySelectorAll('th,td')).map(td => `"${td.textContent.replace(/"/g,'""').trim()}"`).join(','));
+  });
+  downloadFile(rows.join('\n'), filename + '.csv', 'text/csv');
+  showToast('File CSV berhasil diunduh', 'success');
+}
+
+function exportRekapCSV(filename) {
+  const list = getMhsWithNilai(getMhsByKelas());
+  const headers = ['Rank','NIM','Nama','Kelas','Nilai Aktivitas','UTS','UAS','Nilai Akhir','Predikat'];
+  const rows = [headers.join(',')];
+  list.forEach(m => {
+    rows.push([m.rank, m.nim, `"${m.nama}"`, m.kelas||'',
+      m.nilaiAktivitas ?? '', m.uts ?? '', m.uas ?? '',
+      m.nilaiAkhir ?? '', m.predikat || ''
+    ].join(','));
+  });
+  downloadFile(rows.join('\n'), (filename||'rekap')+'.csv', 'text/csv');
+  showToast('CSV berhasil diunduh', 'success');
+}
+
+function exportJSON() {
+  const data = { exportDate: new Date().toISOString(), kelas: 'Treasury-4/5', ...state };
+  downloadFile(JSON.stringify(data, null, 2), `edurank-backup-${new Date().toISOString().slice(0,10)}.json`, 'application/json');
+  showToast('Backup JSON berhasil diunduh', 'success');
+}
+
+function handleImportJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.mahasiswa || !data.nilai) throw new Error('Format tidak valid');
+      openModal('Restore Data', `
+        <div style="text-align:center;padding:10px 0">
+          <div style="font-size:40px;margin-bottom:12px">📥</div>
+          <p>Restore dari file <strong>${file.name}</strong>?</p>
+          <p style="font-size:12px;color:var(--text-secondary);margin-top:8px">Data saat ini akan ditimpa dengan ${data.mahasiswa.length} mahasiswa dan ${data.nilai.length} entri nilai.</p>
+        </div>
+      `, () => {
+        state.mahasiswa = data.mahasiswa;
+        state.nilai = data.nilai;
+        state.ujian = data.ujian || [];
+        saveState();
+        closeModal();
+        showToast('Data berhasil dipulihkan', 'success');
+        refreshNavBadge();
+        renderPage(currentPage);
+      }, 'Restore', 'btn-primary');
+    } catch(err) { showToast('File JSON tidak valid', 'error'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function exportPrintable() {
+  const list = getMhsWithNilai();
+  const rows = list.map((m,i) => `
+    <tr>
+      <td>${i+1}</td><td>${m.nim}</td><td>${m.nama}</td>
+      <td>${m.nilaiAktivitas ?? '—'}</td><td>${m.uts ?? '—'}</td><td>${m.uas ?? '—'}</td>
+      <td><strong>${m.nilaiAkhir ?? '—'}</strong></td><td>${m.predikat || '—'}</td>
+      
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html><html><head><title>Rekap Nilai — EduRank AI</title><style>
+    body{font-family:Arial,sans-serif;font-size:11px;color:#222}
+    h1{font-size:16px;margin-bottom:4px} p{margin-bottom:12px;color:#555}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid #ddd;padding:5px 8px;text-align:left}
+    th{background:#f0f0f0;font-weight:700}
+    tr:nth-child(even){background:#f9f9f9}
+    @media print{body{margin:0}}
+  </style></head><body>
+    <h1>Rekap Nilai Mahasiswa — EduRank AI</h1>
+    <p>Kelas: Treasury-4/5 &nbsp;|&nbsp; Formula: Nilai Akhir = Aktivitas(40%) + UTS(30%) + UAS(30%) &nbsp;|&nbsp; Dicetak: ${new Date().toLocaleDateString('id-ID')}</p>
+    <table>
+      <thead><tr><th>No</th><th>NIM</th><th>Nama</th><th>Aktivitas</th><th>UTS</th><th>UAS</th><th>Nilai Akhir</th><th>Predikat</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </body></html>`;
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+  w.print();
+}
+
+async function exportGasSync() {
+  const urlEl = document.getElementById('gasUrl');
+  const url = urlEl ? urlEl.value.trim() : '';
+  if (!url) {
+    showToast('Masukkan URL Google Apps Script terlebih dahulu', 'error');
+    showPage('export');
+    return;
+  }
+
+  showSpinner(true);
+  try {
+    // Kirim via GET + URL parameter (satu-satunya cara lolos CORS di Apps Script)
+    // Data di-encode sebagai JSON string dalam parameter ?action=sync&data=...
+    const payload = { mahasiswa: state.mahasiswa, nilai: state.nilai, ujian: state.ujian || [] };
+    const encoded = encodeURIComponent(JSON.stringify(payload));
+    const syncUrl = url + (url.includes('?') ? '&' : '?') + 'action=sync&data=' + encoded;
+
+    const res = await fetch(syncUrl, { method: 'GET', redirect: 'follow' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); }
+    catch(e) { throw new Error('Response bukan JSON. Cek URL deployment.'); }
+
+    if (data.status === 'ok') {
+      showToast(`✅ Sync berhasil! ${data.mahasiswa || 0} mahasiswa, ${data.nilai || 0} nilai`, 'success');
+      localStorage.setItem(GAS_URL_KEY, url);
+      gasLastSyncHash = getStateHash();
+      if (!gasConnected) { gasConnected = true; startGasPolling(); }
+      setGasStatusBar('online', 'GAS tersinkron — auto-sync aktif');
+    } else {
+      showToast('❌ GAS error: ' + (data.message || 'Unknown error'), 'error');
+    }
+  } catch(e) {
+    showToast('❌ ' + e.message, 'error');
+  }
+  showSpinner(false);
+}
+
+async function pingGas() {
+  const urlEl = document.getElementById('gasUrl');
+  const url = urlEl ? urlEl.value.trim() : '';
+  if (!url) return showToast('Masukkan URL terlebih dahulu', 'error');
+  showSpinner(true);
+  try {
+    const res = await fetch(url + '?action=ping', { method: 'GET', redirect: 'follow' });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      showToast('✅ Koneksi ke Apps Script berhasil!', 'success');
+      localStorage.setItem(GAS_URL_KEY, url);
+      if (!gasConnected) { gasConnected = true; startGasPolling(); }
+      setGasStatusBar('online', 'GAS terhubung — auto-sync tiap 30 detik');
+    }
+    else showToast('⚠️ ' + data.message, 'error');
+  } catch(e) {
+    showToast('❌ Tidak dapat terhubung: ' + e.message, 'error');
+  }
+  showSpinner(false);
+}
+
+function downloadFile(content, filename, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = filename;
+  a.click();
+}
+
+// ======================================================
+// MODAL
+// ======================================================
+function openModal(title, body, onConfirm, confirmText = 'Simpan', confirmClass = 'btn-primary') {
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-header">
+      <div class="modal-title">${title}</div>
+      <div class="modal-close" onclick="closeModal()">✕</div>
+    </div>
+    <div id="modalBody">${body}</div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+      <button class="btn ${confirmClass}" id="modalConfirmBtn">${confirmText}</button>
+    </div>`;
+  document.getElementById('modalConfirmBtn').onclick = onConfirm;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+
+// ======================================================
+// TOAST
+// ======================================================
+function showToast(msg, type = 'info') {
+  const icons = { success:'✅', error:'❌', info:'ℹ️' };
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span class="toast-icon">${icons[type]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(toast);
+  setTimeout(() => toast.remove(), 3500);
+}
+
+// ======================================================
+// SPINNER
+// ======================================================
+function showSpinner(v) { document.getElementById('spinner').classList[v?'add':'remove']('show'); }
+
+// ======================================================
+// UTILS
+// ======================================================
+function refreshData() {
+  showSpinner(true);
+  setTimeout(() => {
+    renderPage(currentPage);
+    showSpinner(false);
+    showToast('Data diperbarui', 'info');
+  }, 400);
+}
+
+function setKelasFilter(kelas, el) {
+  activeKelas = kelas;
+  document.querySelectorAll('#kelasFilterSidebar .nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const label = document.getElementById('kelasLabel');
+  if (label) label.textContent = kelas === 'Semua' ? 'Semua Kelas' : kelas;
+  refreshNavBadge();
+  renderPage(currentPage);
+}
+
+function refreshNavBadge() {
+  const total = state.mahasiswa.length;
+  const t4 = state.mahasiswa.filter(m => m.kelas === 'Treasury-4').length;
+  const t5 = state.mahasiswa.filter(m => m.kelas === 'Treasury-5').length;
+  const filtered = getMhsByKelas().length;
+
+  const nb = document.getElementById('navBadgeTotal');
+  const tb = document.getElementById('totalMhsTopbar');
+  const ba = document.getElementById('badgeKelasAll');
+  const b4 = document.getElementById('badgeKelas4');
+  const b5 = document.getElementById('badgeKelas5');
+  if (nb) nb.textContent = filtered;
+  if (tb) tb.textContent = `${filtered} Mahasiswa${activeKelas !== 'Semua' ? ' · ' + activeKelas : ''}`;
+  if (ba) ba.textContent = total;
+  if (b4) b4.textContent = t4;
+  if (b5) b5.textContent = t5;
+}
+
+// ======================================================
+// THEME TOGGLE
+// ======================================================
+let currentTheme = 'dark';
+
+function initTheme() {
+  const saved = localStorage.getItem('edurank_theme') || 'dark';
+  applyTheme(saved, false);
+}
+
+function toggleTheme() {
+  applyTheme(currentTheme === 'dark' ? 'light' : 'dark', true);
+}
+
+function applyTheme(theme, save) {
+  currentTheme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+
+  const icon   = document.getElementById('themeIcon');
+  const label  = document.getElementById('themeLabel');
+  const status = document.getElementById('themeStatus');
+
+  if (theme === 'light') {
+    if (icon)   icon.textContent   = '☀️';
+    if (label)  label.textContent  = 'Light Mode';
+    if (status) status.textContent = 'ON';
+  } else {
+    if (icon)   icon.textContent   = '🌙';
+    if (label)  label.textContent  = 'Dark Mode';
+    if (status) status.textContent = 'ON';
+  }
+
+  // Update Chart.js default colors
+  const tickColor  = theme === 'light' ? '#475569' : getTickColor();
+  const gridColor  = theme === 'light' ? 'rgba(99,102,241,0.08)' : getGridColor();
+  Chart.defaults.color = tickColor;
+  Chart.defaults.borderColor = gridColor;
+
+  // Re-render active page charts
+  renderPage(currentPage);
+
+  if (save) localStorage.setItem('edurank_theme', theme);
+}
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const page = item.dataset.page;
+    if (page) showPage(page);
+  });
+});
+
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// ======================================================
+// INIT
+// ======================================================
+loadStateLocal();   // load local cache immediately for instant render
+initTheme();
+renderDashboard();
+refreshNavBadge();
+checkImportFromURL();
+initFirebase();     // connect Firebase if configured
+initGasAutoSync();  // connect GAS polling if URL saved
+initCloudflare();   // connect Cloudflare Worker if URL configured
+
+// ======================================================
+// GAS AUTO-SYNC — polling 30 detik tanpa config tambahan
+// ======================================================
+const GAS_URL_KEY    = 'edurank_gas_url';
+const GAS_POLL_SECS  = 30;
+let gasPollingTimer  = null;
+let gasLastSyncHash  = '';
+let gasConnected     = false;
+
+function initGasUrlPersist() {
+  const el = document.getElementById('gasUrl');
+  if (!el) return;
+  const saved = localStorage.getItem(GAS_URL_KEY);
+  if (saved) el.value = saved;
+  el.addEventListener('input', () => localStorage.setItem(GAS_URL_KEY, el.value.trim()));
+}
+
+function getGasUrl() {
+  const el = document.getElementById('gasUrl');
+  if (el && el.value.trim()) return el.value.trim();
+  return localStorage.getItem(GAS_URL_KEY) || '';
+}
+
+function getStateHash() {
+  return `${state.nilai.length}-${state.ujian.length}-${state.mahasiswa.length}`;
+}
+
+async function gasPushSilent() {
+  const url = getGasUrl();
+  if (!url || !gasConnected) return;
+  const hash = getStateHash();
+  if (hash === gasLastSyncHash) return;
+  try {
+    const payload = { mahasiswa: state.mahasiswa, nilai: state.nilai, ujian: state.ujian || [] };
+    const encoded = encodeURIComponent(JSON.stringify(payload));
+    const res = await fetch(url + '?action=sync&data=' + encoded, { method:'GET', redirect:'follow' });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.status === 'ok') {
+      gasLastSyncHash = hash;
+      setGasStatusBar('online', 'GAS tersinkron ✓ ' + new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}));
+    }
+  } catch(e) { /* silent */ }
+}
+
+async function gasPullSilent() {
+  const url = getGasUrl();
+  if (!url) return;
+  try {
+    const [rMhs, rNilai, rUjian] = await Promise.all([
+      fetch(url + '?action=students', {redirect:'follow'}).then(r=>r.json()),
+      fetch(url + '?action=scores',   {redirect:'follow'}).then(r=>r.json()),
+      fetch(url + '?action=ujian',    {redirect:'follow'}).then(r=>r.json()).catch(()=>({status:'ok',data:[]})),
+    ]);
+    if (rMhs.status !== 'ok' || rNilai.status !== 'ok') return;
+
+    const mahasiswa = Array.isArray(rMhs.data)  ? rMhs.data  : Object.values(rMhs.data  || {});
+    const nilai     = Array.isArray(rNilai.data) ? rNilai.data : Object.values(rNilai.data || {});
+    const ujian     = Array.isArray(rUjian.data) ? rUjian.data : Object.values(rUjian.data || {});
+
+    const remoteHash = `${nilai.length}-${ujian.length}-${mahasiswa.length}`;
+    if (remoteHash === gasLastSyncHash) return; // kita yg terakhir push
+    if (remoteHash === getStateHash())  return; // tidak ada perubahan
+
+    if (mahasiswa.length > 0) state.mahasiswa = mahasiswa;
+    state.nilai = nilai;
+    state.ujian = ujian;
+    gasLastSyncHash = remoteHash;
+    saveStateLocal();
+    refreshNavBadge();
+    renderPage(currentPage);
+    setGasStatusBar('online', 'GAS — diperbarui ' + new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}));
+  } catch(e) {
+    setGasStatusBar('offline', 'GAS tidak terjangkau');
+    gasConnected = false;
+    stopGasPolling();
+  }
+}
+
+function startGasPolling() {
+  stopGasPolling();
+  gasPullSilent();
+  gasPollingTimer = setInterval(gasPullSilent, GAS_POLL_SECS * 1000);
+}
+
+function stopGasPolling() {
+  if (gasPollingTimer) { clearInterval(gasPollingTimer); gasPollingTimer = null; }
+}
+
+async function connectGasUrl(url) {
+  if (!url) return;
+  setGasStatusBar('connecting', 'Menghubungkan ke GAS...');
+  try {
+    const res  = await fetch(url + '?action=ping', { redirect:'follow' });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      gasConnected = true;
+      localStorage.setItem(GAS_URL_KEY, url);
+      setGasStatusBar('online', 'GAS terhubung — auto-sync tiap 30 detik');
+      startGasPolling();
+      return true;
+    }
+  } catch(e) {}
+  setGasStatusBar('offline', 'Gagal terhubung ke GAS');
+  return false;
+}
+
+function setGasStatusBar(status, msg) {
+  if (fbInitialized) return; // Firebase lebih prioritas
+  setFbStatus(status, msg);
+}
+
+// Patch saveState to auto-push after every save
+const __origSave = saveState;
+function saveState() {
+  __origSave();
+  if (gasConnected) setTimeout(gasPushSilent, 600);
+}
+
+// Init GAS on startup
+async function initGasAutoSync() {
+  const url = getGasUrl();
+  if (url) await connectGasUrl(url);
+}
+
+
+// ======================================================
+// CLOUDFLARE WORKER REALTIME SYNC
+// Isi WORKER_URL dengan URL Worker kamu setelah deploy
+// Tidak perlu config apapun di komputer lain
+// ======================================================
+const WORKER_URL     = 'https://edurank-ai.bahrizalsyahalba.workers.dev/';   // ← isi: https://edurank-ai.USERNAME.workers.dev
+const CF_POLL_MS     = 3000; // polling tiap 3 detik (terasa realtime)
+const CF_CLIENT_ID   = 'client_' + Math.random().toString(36).slice(2,8);
+
+let cfPollTimer      = null;
+let cfLastUpdated    = 0;
+let cfConnected      = false;
+let cfPushTimer      = null;  // debounce push
+
+// ── Check + Pull (ringan — cek timestamp dulu) ───────────
+async function cfPoll() {
+  const WORKER_URL = getWorkerUrl();
+  if (!WORKER_URL || !cfConnected) return;
+  try {
+    // Step 1: cek timestamp saja (sangat ringan)
+    const chk = await fetch(WORKER_URL + '?action=check').then(r => r.json());
+    if (chk.status !== 'ok') return;
+    if (chk.lastUpdated <= cfLastUpdated) return; // tidak ada perubahan
+
+    // Step 2: ada update baru — pull data lengkap
+    const data = await fetch(WORKER_URL + '?action=pull').then(r => r.json());
+    if (data.status !== 'ok') return;
+
+    cfLastUpdated = data.lastUpdated;
+
+    // Hanya update jika data berbeda dari local
+    const remoteHash = `${data.nilai.length}-${data.ujian.length}-${data.mahasiswa.length}`;
+    const localHash  = `${state.nilai.length}-${state.ujian.length}-${state.mahasiswa.length}`;
+    if (remoteHash === localHash) return;
+
+    if (data.mahasiswa.length > 0) state.mahasiswa = data.mahasiswa;
+    state.nilai = data.nilai;
+    state.ujian = data.ujian;
+    saveStateLocal();
+    refreshNavBadge();
+    renderPage(currentPage);
+    setCfStatus('online', 'Realtime — diperbarui ' + new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}));
+  } catch(e) {
+    setCfStatus('offline', 'Worker tidak terjangkau');
+  }
+}
+
+// ── Push ke Worker ────────────────────────────────────────
+async function cfPush() {
+  const WORKER_URL = getWorkerUrl();
+  if (!WORKER_URL || !cfConnected) return;
+  try {
+    const res = await fetch(WORKER_URL + '?action=push', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        mahasiswa: state.mahasiswa,
+        nilai:     state.nilai,
+        ujian:     state.ujian || [],
+        clientId:  CF_CLIENT_ID,
+      }),
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      cfLastUpdated = data.lastUpdated;
+      setCfStatus('online', 'Realtime — tersinkron ✓');
+    }
+  } catch(e) { /* silent */ }
+}
+
+// ── Debounced push (dipanggil setelah setiap saveState) ──
+function cfPushDebounced() {
+  if (!WORKER_URL || !cfConnected) return;
+  clearTimeout(cfPushTimer);
+  cfPushTimer = setTimeout(cfPush, 500);
+}
+
+// ── Start/stop polling ────────────────────────────────────
+function startCfPolling() {
+  stopCfPolling();
+  cfPollTimer = setInterval(cfPoll, CF_POLL_MS);
+}
+function stopCfPolling() {
+  if (cfPollTimer) { clearInterval(cfPollTimer); cfPollTimer = null; }
+}
+
+// ── Connect ke Worker ─────────────────────────────────────
+async function initCloudflare() {
+  const WORKER_URL = getWorkerUrl();
+  if (!WORKER_URL) return; // belum dikonfigurasi
+  setCfStatus('connecting', 'Menghubungkan ke Worker...');
+  try {
+    const res = await fetch(WORKER_URL + '?action=ping');
+    const data = await res.json();
+    if (data.status === 'ok') {
+      cfConnected = true;
+      setCfStatus('online', 'Realtime — tersinkron');
+      // Pull data pertama kali
+      await cfPull();
+      startCfPolling();
+    } else {
+      setCfStatus('offline', 'Worker error: ' + data.message);
+    }
+  } catch(e) {
+    setCfStatus('offline', 'Worker tidak terjangkau: ' + e.message);
+  }
+}
+
+async function cfPull() {
+  const WORKER_URL = getWorkerUrl();
+  if (!WORKER_URL) return;
+  try {
+    const data = await fetch(WORKER_URL + '?action=pull').then(r => r.json());
+    if (data.status !== 'ok') return;
+    cfLastUpdated = data.lastUpdated;
+    if (data.mahasiswa.length > 0) state.mahasiswa = data.mahasiswa;
+    if (data.nilai.length > 0 || data.ujian.length > 0) {
+      state.nilai = data.nilai;
+      state.ujian = data.ujian;
+    }
+    saveStateLocal();
+    refreshNavBadge();
+    renderPage(currentPage);
+  } catch(e) { /* silent */ }
+}
+
+// ── Status indicator ──────────────────────────────────────
+function setCfStatus(status, msg) {
+  // CF lebih prioritas dari GAS, tapi di bawah Firebase
+  if (fbInitialized) return;
+  setFbStatus(status, msg);
+}
+
+// ── Patch saveState untuk auto-push ke Cloudflare ────────
+const __cfOrigSave = saveState;
+function saveState() {
+  __cfOrigSave();
+  cfPushDebounced();
+}
+
+
+async function pushToWorker() {
+  const url = getWorkerUrl();
+  if (!url) {
+    showToast('URL Cloudflare Worker belum dikonfigurasi. Isi dulu di bagian bawah halaman ini.', 'error');
+    return;
+  }
+  showSpinner(true);
+  try {
+    const res = await fetch(url + '?action=push', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        mahasiswa: state.mahasiswa,
+        nilai:     state.nilai,
+        ujian:     state.ujian || [],
+        clientId:  CF_CLIENT_ID,
+      }),
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      cfLastUpdated = data.lastUpdated;
+      cfConnected   = true;
+      startCfPolling();
+      showToast(`✅ Push berhasil! ${data.mahasiswa} mahasiswa, ${data.nilai} nilai terkirim ke Cloudflare`, 'success');
+      setCfStatus('online', 'Cloudflare — tersinkron ✓');
+    } else {
+      showToast('❌ Error: ' + (data.message || 'Unknown'), 'error');
+    }
+  } catch(e) {
+    showToast('❌ Gagal terhubung ke Worker: ' + e.message, 'error');
+  }
+  showSpinner(false);
+}
+
+
+const CF_URL_KEY = 'edurank_cf_worker_url';
+
+function initCfWorkerForm() {
+  const saved = localStorage.getItem(CF_URL_KEY) || WORKER_URL;
+  const el = document.getElementById('cfWorkerUrl');
+  if (el && saved) {
+    el.value = saved;
+    const status = document.getElementById('cfConfigStatus');
+    if (status && saved) {
+      status.textContent = 'Terkonfigurasi ✓';
+      status.style.cssText = 'font-size:12px;padding:4px 12px;border-radius:20px;background:rgba(34,197,94,0.1);color:var(--green-400);border:1px solid rgba(34,197,94,0.3)';
+    }
+  }
+}
+
+async function testCfWorker() {
+  const url = document.getElementById('cfWorkerUrl')?.value.trim();
+  if (!url) return showToast('Masukkan URL Worker terlebih dahulu', 'error');
+  showSpinner(true);
+  try {
+    const res  = await fetch(url + '?action=ping');
+    const data = await res.json();
+    if (data.status === 'ok') showToast('✅ Cloudflare Worker aktif dan terhubung!', 'success');
+    else showToast('❌ Worker error: ' + data.message, 'error');
+  } catch(e) {
+    showToast('❌ Tidak dapat terhubung: ' + e.message, 'error');
+  }
+  showSpinner(false);
+}
+
+function saveCfWorkerUrl() {
+  const url = document.getElementById('cfWorkerUrl')?.value.trim();
+  if (!url) return showToast('Masukkan URL Worker terlebih dahulu', 'error');
+
+  // Save to localStorage
+  localStorage.setItem(CF_URL_KEY, url);
+
+  // Patch WORKER_URL in-memory and reconnect
+  // We use a dynamic approach since const can't be reassigned
+  window._CF_WORKER_URL = url;
+
+  showToast('✅ URL disimpan! Sekarang download index.html baru dan upload ke GitHub.', 'success');
+
+  // Update status badge
+  const status = document.getElementById('cfConfigStatus');
+  if (status) {
+    status.textContent = 'Terkonfigurasi ✓';
+    status.style.cssText = 'font-size:12px;padding:4px 12px;border-radius:20px;background:rgba(34,197,94,0.1);color:var(--green-400);border:1px solid rgba(34,197,94,0.3)';
+  }
+
+  // Also generate downloadable index.html with URL baked in
+  generateIndexWithWorkerUrl(url);
+}
+
+function clearCfWorkerUrl() {
+  localStorage.removeItem(CF_URL_KEY);
+  window._CF_WORKER_URL = '';
+  const el = document.getElementById('cfWorkerUrl');
+  if (el) el.value = '';
+  const status = document.getElementById('cfConfigStatus');
+  if (status) {
+    status.textContent = 'Belum dikonfigurasi';
+    status.style.cssText = 'font-size:12px;padding:4px 12px;border-radius:20px;background:rgba(249,115,22,0.1);color:#f97316;border:1px solid rgba(249,115,22,0.3)';
+  }
+  showToast('CF Worker URL dihapus', 'info');
+  stopCfPolling();
+  cfConnected = false;
+}
+
+// Generate index.html baru dengan URL tertanam
+function generateIndexWithWorkerUrl(url) {
+  // Get current page HTML and replace WORKER_URL
+  const html = document.documentElement.outerHTML;
+  const updated = html.replace(
+    "const WORKER_URL     = 'https://edurank-ai.bahrizalsyahalba.workers.dev/';",
+    `const WORKER_URL     = '${url}';`
+  );
+  const blob = new Blob([updated], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'index.html';
+  a.click();
+  showToast('📥 index.html baru didownload — upload ke GitHub!', 'success');
+}
+
+// Override initCloudflare to also check localStorage
+const __cfOrigInit = initCloudflare;
+async function initCloudflare() {
+  // Check localStorage for saved URL (overrides hardcoded empty)
+  const saved = localStorage.getItem(CF_URL_KEY);
+  if (saved) window._CF_WORKER_URL = saved;
+  await __cfOrigInit();
+}
+
+// Override getWorkerUrl dynamically
+function getWorkerUrl() {
+  return window._CF_WORKER_URL || WORKER_URL || localStorage.getItem(CF_URL_KEY) || '';
+}
+
+</script>
+</body>
+</html>
